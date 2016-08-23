@@ -1,0 +1,21 @@
+1. Jak będzie wyglądał bajt dotczący f_key ? Ile funkcji naraz może wystąpić ? Czy bit odpowiedzialny
+za stan wyjscia zawsze będzie ustawiony?
+2. Co serwer wysyła jako 3 bajt? W dokumentacji komunikacji jest napisane:
+"co serwer chce zrobić
+mówi że chce nam dać ustawienia
+do konfiguracji
+może też powiedzieć że wszystko
+po staremu albo że kogoś trzeba
+usunąć albo że jest ktoś nowy"
+Jak w takim razie ma wyglądać ten bajt? Na jakiej podstawie sprawdzane jest to czy jest ktoś nowy czy nie?
+3.Na jakiej podstawie serwer ma odsyłać IP do smartboxa? Jak ma weryfikowac czy serwer obciążony?
+W dokumentacji zapisano:
+"IP do następnego połaczenia
+w razie wypadku
+np. jeden z serwerow obciążony
+albo awaria
+a jak nie to podaj aktualny"
+4. wysyłając paczki w postaci : "\xff\xff\xff" który bajt jest najbardziej znaczący?
+
+
+
