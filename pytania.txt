@@ -16,6 +16,8 @@ np. jeden z serwerow obciążony
 albo awaria
 a jak nie to podaj aktualny"
 4. wysyłając paczki w postaci : "\xff\xff\xff" który bajt jest najbardziej znaczący?
+5. Dla paczki konfiguracyjnej serwer wysyła id oraz hasła do smartboxów.... co w przypadku gdy nie ma nowych smartboxów?
+wypełniamy bajty zerami?
 
 
 
