@@ -4,6 +4,7 @@ from twisted.internet import protocol, reactor
 from binascii import unhexlify
 import psycopg2
 from socket import inet_aton
+from struct import pack
 
 # bit mask to check if memory in smartbox is empty
 f_key_empty_memory = 128
@@ -53,22 +54,73 @@ class HTTPEchoProtocol(basic.LineReceiver):
 		# TODO this will work only if one bit will be set in f_key byte
 		if f_key == f_key_empty_memory:
 			print "Mam pustą pamięć proszę o paczkę konfiguracji"
+
 			# TODO this query is hardcoded,it must be changed
-			ip_query = "Select ip_adress from servers where id = 1"
-			ip = self.database_operation(ip_query, "select")[0][0]
+			query = "Select ip_adress, port from servers where id = 1"
+			query_result = self.database_operation(query, "select")
+			ip = query_result[0][0]
+			port = query_result[0][1]
 			ip_byte = bytearray(inet_aton(str(ip)))
-			print "%r" % ip_byte
+			#port is saved in two bytes, port varaible in example i equal to 8000
+			#so port port_byte is write in two bytes, for 8000 is equal to '@\x1f'
+			#port_byte[0] = 64 , port_byte[1] = 31
+			port_byte = bytearray(pack('h', port))
 			# TODO don't know how set 3rd byte
 			# for now 3rd byte will be resend
 			# TODO for now nothing change in first 3 byte so maybe mask is not necessary?
-			list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], list_of_bytes[2],
+			#TODO in bytes from 11 to 29 we send information about smartboxes working in current network,
+			#this must be done later beacouse i dont know how to get this information
+			#64 because its means that next package will be configuration package
+
+			list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 64,
 			                           list_of_bytes[3], ip_byte[0], ip_byte[1], ip_byte[2],
-			                           ip_byte[3]])
+			                           ip_byte[3], port_byte[0], port_byte[1]])
 			# list_of_bytes_send is bytearray type which is represented by bytearray(b'\xff\xff')
 			# to send only bytes we must convert this array and we get only '\xff\xff'
 			self.sendResponse(bytes(list_of_bytes_send))
+
 		if f_key == f_key_ready_for_configuration:
 			print "Dobra jestem gotowy na przyjęcie nowej paczki z konfiguracją - dawaj ją!"
+
+			# TODO this query is hardcoded,it must be changed
+			query = "Select ip_adress, port from servers where id = 1"
+			query_result = self.database_operation(query, "select")
+			ip = query_result[0][0]
+			port = query_result[0][1]
+			ip_byte = bytearray(inet_aton(str(ip)))
+			#port is saved in two bytes, port varaible in example i equal to 8000
+			#so port port_byte is write in two bytes, for 8000 is equal to '@\x1f'
+			#port_byte[0] = 64 , port_byte[1] = 31
+			port_byte = bytearray(pack('h', port))
+			# TODO don't know how set 3rd byte
+			# for now 3rd byte will be resend
+			# TODO for now nothing change in first 3 byte so maybe mask is not necessary?
+			#TODO in bytes from 11 to 29 we send information about smartboxes working in current network,
+
+			#get first two bytes - smartbox id
+			smart_id_hex = data_string_of_bytes[:2]
+			#convert id to decimal
+			smart_id = int(smart_id_hex.encode('hex'), 16)
+			query_network_id = "Select network_id from smartbox_settings where smart_id = %d" % smart_id
+			# print smart_id
+			network_id = self.database_operation(query_network_id, "select")[0][0]
+			query = "Select smart_id, smart_password from smartbox_settings where network_id = %d" % network_id
+			all_smartboxes_ids = self.database_operation(query, "select")
+			smartboxes_count = len(all_smartboxes_ids)
+			# -1 beacuse select return also id of master smartbox
+			#128 because its means that this package is the configuration package
+			list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3],
+			                           ip_byte[0], ip_byte[1], ip_byte[2], ip_byte[3], port_byte[0],
+			                           port_byte[1], smartboxes_count-1])
+
+			if all_smartboxes_ids:
+				for ids in all_smartboxes_ids:
+					next_smart_id = bytearray(pack('h', ids[0]))
+					#in this order because first is send high byte
+					list_of_bytes_send.extend([next_smart_id[1], next_smart_id[0], int(ids[1])])
+			# TODO send sum cntrol
+			print "%r" % list_of_bytes_send
+
 		if f_key == f_key_report:
 			print "Ta paczka to raport na temat sieci i ostatniego połaczenia"
 		if f_key == f_key_wrong_pin:

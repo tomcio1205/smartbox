@@ -18,6 +18,14 @@ a jak nie to podaj aktualny"
 4. wysyłając paczki w postaci : "\xff\xff\xff" który bajt jest najbardziej znaczący?
 5. Dla paczki konfiguracyjnej serwer wysyła id oraz hasła do smartboxów.... co w przypadku gdy nie ma nowych smartboxów?
 wypełniamy bajty zerami?
-
-
-
+6. Co dokładnie ma być wysyłane w 10 bajcie dla normalnego trybu pracy
+7  W jaki sposób serwer określa czynność do wykonania przy normalnym trybie pracy - 3 bajt
+8. 7 bajt - sprawdza co serwer mu karze?
+9.co ma być wysłane w paczce od serwera w momencie kiedy informuje on smartboxa ze wysle dane konfiguracyjne
+10 czy:
+czy wyślesz mi raport na temat swojej sieci i połączenia? f_key server
+to ten sam raport co raport wysyłany przez smarrtboxa?
+jeśli nie to kiedy serwer ma inicjować prośbę o wysłanie raportu na temat sieci i połączenia?
+11. Jak jest w przypadku wysyłania id podległego smartboxa wrraz z hasłem? jeśli mamy 2 podległe to wypełniamy wymagana
+ilość bajtów a resztę zerujemy czy zmniejszamy paczkę? jak jest więcej niż pomieści 32 bajtowa paczka?
+12. jak będzie wyglądać hasło do smartboxów bo bluetooth?
