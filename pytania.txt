@@ -29,3 +29,9 @@ jeśli nie to kiedy serwer ma inicjować prośbę o wysłanie raportu na temat s
 11. Jak jest w przypadku wysyłania id podległego smartboxa wrraz z hasłem? jeśli mamy 2 podległe to wypełniamy wymagana
 ilość bajtów a resztę zerujemy czy zmniejszamy paczkę? jak jest więcej niż pomieści 32 bajtowa paczka?
 12. jak będzie wyglądać hasło do smartboxów bo bluetooth?
+
+13. Kiedy serwer karze się zresetować smartboxowi?
+14. serwer przekazuje smartboxowi informacje o czynnościach które mają wykonać podległe mu smartboxy ( normalny tryb pracy),
+co w przypadku gdy serwer nic nie karze robić podległym smartboxom? jak mam ustawic wtedy f-key? czym jest stan wyjscia zadany?
+15. Jak ustawiony jest f_key dla normalnego trybu pracy?
+16.
