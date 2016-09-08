@@ -219,7 +219,7 @@ class Echo(Protocol):
 def main():
     f = Factory()
     f.protocol = Echo
-    reactor.listenTCP(8000, f)
+    reactor.listenTCP(8080, f)
     reactor.run()
 
 if __name__ == '__main__':

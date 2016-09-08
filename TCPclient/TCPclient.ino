@@ -1,8 +1,10 @@
 #include <ESP8266WiFi.h>
-
-const char* ssid     = "NETIASPOT-52CC50";
-const char* password = "c2svzibeu6i5";
-
+//const char* ssid     = "NETIASPOT-B87D10";
+//const char* password = "8k3zs5aomf7z";
+//const char* ssid     = "NETIASPOT-52CC50";
+//const char* password = "c2svzibeu6i5";
+const char* ssid     = "TP-LINK_9F2BAE";
+const char* password = "qwerty123";
 String data = "";
 char bb0 = 1;
 char bb1 = 195;
@@ -55,7 +57,7 @@ void setup() {
 }
 
 const uint16_t port = 8000;
-const char * host = "192.168.1.9"; // ip or dns
+const char * host = "192.168.1.3"; // ip or dns
 
 void loop() {
   delay(5000);
@@ -105,7 +107,8 @@ void loop() {
   // Read all the lines of the reply from server and print them to Serial
   while (client.available()) {
     String line = client.readStringUntil('\r');
-    Serial.print(line);
+    Serial.println(line);
+    Serial.print(line[2] + " " + line[0]);
   }
 
   Serial.println();
