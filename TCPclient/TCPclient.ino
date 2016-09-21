@@ -1,15 +1,21 @@
 #include <ESP8266WiFi.h>
+#include "Crc16.h"
+
+Crc16 crc; 
+
 //const char* ssid     = "NETIASPOT-B87D10";
 //const char* password = "8k3zs5aomf7z";
-//const char* ssid     = "NETIASPOT-52CC50";
-//const char* password = "c2svzibeu6i5";
-const char* ssid     = "TP-LINK_9F2BAE";
-const char* password = "qwerty123";
+const char* ssid     = "NETIASPOT-52CC50";
+const char* password = "c2svzibeu6i5";
+//const char* ssid     = "WN-696969";
+//const char* password = "N0M0n3yN0wifi";
+//const char* ssid     = "TP-LINK_9F2BAE";
+//const char* password = "qwerty123";
 String data = "";
 char bb0 = 1;
 char bb1 = 195;
 char bb2 = 1;
-char bb3 = 255;
+char bb3 = 144;
 char bb4 = 4;
 char bb5 = 226;
 char bb6 = 230;
@@ -27,9 +33,10 @@ char bb17 = 255;
 char bb18 = 4;
 char bb19 = 226;
 char bb20 = 230;
-char bb21 = 10;
-char bb22 = 179;
+//char bb21 = 10;
+//char bb22 = 179;
 
+String readString;
 void setup() {
   pinMode(13, OUTPUT);
   led(100, 5);
@@ -57,7 +64,7 @@ void setup() {
 }
 
 const uint16_t port = 8000;
-const char * host = "192.168.1.3"; // ip or dns
+const char * host = "192.168.1.9"; // ip or dns
 
 void loop() {
   delay(5000);
@@ -98,17 +105,47 @@ void loop() {
   data += bb18;
   data += bb19;
   data += bb20;
-  data += bb21;
-  data += bb22;
-  Serial.print(data);
-  Serial.println();  
+//  data += bb21;
+//  data += bb22;
+  //////////////////calculate crc16///////////////////
+  crc.clearCrc();
+  for (int i=0; i<data.length(); i++)
+  {
+    crc.updateCrc((int)data[i]);
+  }
+  unsigned short value = crc.getCrc();
+//  Serial.print("Checksum ");
+//  Serial.println(value, HEX);
+  //////////////////calculate crc16//////////////////
+  data += (char)highByte(value);
+  data += (char)lowByte(value);  
   client.print(data);
   delay(100);
+  String line;
   // Read all the lines of the reply from server and print them to Serial
-  while (client.available()) {
-    String line = client.readStringUntil('\r');
-    Serial.println(line);
-    Serial.print(line[2] + " " + line[0]);
+  while (client.available())
+  {
+//    int byteBuffer = 12;
+//    char interesting[10];
+//     int byteCount = client.readBytesUntil('\n', interesting, byteBuffer);
+
+    // Convert the byte array to a String
+
+   
+    line = client.readStringUntil('\r');
+//    Serial.println(line.length());
+//    Serial.println(line);
+//    Serial.print(line[2] + " " + line[0]);
+  }
+
+//  Serial.println("test");
+
+  for (int i=0; i<line.length(); i++)
+  {
+    Serial.print("Value of byte number ");
+    Serial.print(i);
+    Serial.print(" : ");
+    Serial.println(line[i], HEX);
   }
 
   Serial.println();

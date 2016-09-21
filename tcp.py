@@ -6,7 +6,7 @@ from twisted.internet import reactor
 import psycopg2
 from socket import inet_aton
 from struct import pack
-import crc16
+from PyCRC.CRCCCITT import CRCCCITT
 
 # bit mask to check if memory in smartbox is empty
 f_key_empty_memory = 128
@@ -69,12 +69,18 @@ class Echo(Protocol):
         # TODO this will work only if one bit will be set in f_key byte
 
         # first we must check sum control
-        calculate_sum_control = sum(list_of_bytes[:-2])
+        # sum_of_bytes_to_calc_sum_control = sum(list_of_bytes[:-2])
+        checksum = CRCCCITT().calculate(data[:-2])
         receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
         receive_sum_control = int(receive_sum_control_hex, 16)
-        print 'wyliczona suma kontrolna: %d' % calculate_sum_control
-        print 'otrzymana suma kontrolna %d' % receive_sum_control
-
+        # print 'wyliczona suma kontrolna: %r' % checksum
+        # print 'otrzymana suma kontrolna %d' % receive_sum_control
+        self.sendResponse(data)
+        if checksum == receive_sum_control:
+            print "Suma kontrolna zweryfikowana poprawnie"
+        else:
+            print "Sumy kontrolne różne, nie rozpatruję paczki \n"
+            return 0;
         # if calculate_sum_control != receive_sum_control:
         # 	print "Błędna suma kontrolna"
         # 	return
@@ -152,10 +158,12 @@ class Echo(Protocol):
                         list_of_bytes_send.extend([next_smart_id[1], next_smart_id[0], int(ids[1])])
             # TODO send sum control
             # generate sum control  by crc16 module
-            sum_of_bytes = sum(list_of_bytes_send)
-            sum_control = crc16.crc16xmodem(str(sum_of_bytes))
-            sum_control_array = bytearray(pack('h', sum_control))
-            list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
+            ###############################
+            # sum_of_bytes = sum(list_of_bytes_send)
+            # sum_control = crc16.crc16xmodem(str(sum_of_bytes))
+            # sum_control_array = bytearray(pack('h', sum_control))
+            # list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
+            ######################################
             print "%r" % list_of_bytes_send
 
             # list_of_bytes_send_hex = [hex(x) for x in list_of_bytes_send]
@@ -202,8 +210,16 @@ class Echo(Protocol):
 
 
             # build package which will be sending
-            list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3]])
-            self.sendResponse(bytes(list_of_bytes_send))
+            #TODO what will be send?
+            list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3], list_of_bytes[4], list_of_bytes[5],
+                                       128, list_of_bytes[6]])
+            #sending bytes(list_of_bytes_send) and reading in smartbox with     Serial.println(line)->[1, 244, 255]
+            # Serial.println(line[4]) -> 2 we get single sign from string
+            print "%r" % ''.join(str(bytearray(list_of_bytes_send)))
+            self.sendResponse(''.join(str(bytearray(list_of_bytes_send))))
+            # self.sendResponse("xxxxxxxxxxxxx")
+
+            # self.sendResponse(bytes(list_of_bytes_send))
 
     def database_operation(self, query, query_type):
         # database connection
@@ -219,7 +235,7 @@ class Echo(Protocol):
 def main():
     f = Factory()
     f.protocol = Echo
-    reactor.listenTCP(8080, f)
+    reactor.listenTCP(8000, f)
     reactor.run()
 
 if __name__ == '__main__':
