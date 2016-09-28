@@ -47,6 +47,11 @@ class Echo(Protocol):
     # self.transport.loseConnection()
 
     def f_key_interpretation(self, data):
+        if 'POST' or 'GET' in data:
+            responseBody = "You said:\r\n\r\n" + "\r\n".join(self.lines)
+            self.transport.write(responseBody)
+            self.transport.loseConnection()
+            return 0
         # unfortunately python replace escape character \x with \\x so below code convert received string
         # data_replace_backslash = data.replace("\\x", "")
         list_of_bytes = [ord(my_byte) for my_byte in data]

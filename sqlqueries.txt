@@ -1,0 +1,76 @@
+CREATE TABLE users (
+    ID          bigserial PRIMARY KEY,
+    IsDeleted   boolean,
+    FirstName	character varying,
+    LastName    character varying,
+    Email       character varying,
+    PhoneNUmber integer 
+);
+
+CREATE TABLE family (
+    ID          bigserial PRIMARY KEY ,
+    IsDeleted   boolean,
+    MainUserID  integer REFERENCES Users (ID)
+);
+
+CREATE TABLE family_users (
+    FamilyID    integer REFERENCES Family (ID),
+    UserID      integer REFERENCES Users (ID),
+    IdDeleted	boolean
+);
+
+CREATE TABLE area (
+    ID          bigserial PRIMARY KEY,
+    IsDeleted   boolean,
+    Name	character varying,
+    IsActive    boolean,
+    IsOn        boolean,
+    AntiTheft   boolean,
+    SimulatePresence boolean
+);
+
+CREATE TABLE user_area (
+    UserID      integer REFERENCES users (ID),
+    IsDeleted   boolean,
+    AreaID	integer REFERENCES area (ID)
+);
+
+CREATE TABLE device (
+    ID          bigserial PRIMARY KEY,
+    IsDeleted   boolean,
+    Name	character varying,
+    IsOn        boolean,
+    AntiTheft   boolean,
+    SimulatePresence boolean
+);
+
+CREATE TABLE user_device (
+    UserID      integer REFERENCES users (ID),
+    IsDeleted   boolean,
+    DviceID	integer REFERENCES device (ID)
+);
+
+CREATE TABLE area_device (
+    AreaID      integer REFERENCES area (ID),
+    IsDeleted   boolean,
+    DviceID	integer REFERENCES device (ID)
+);
+
+CREATE TABLE task (
+    ID          bigserial PRIMARY KEY,
+    DviceID	integer REFERENCES device (ID),
+    UserID	integer REFERENCES users (ID),
+    AreaID      integer REFERENCES area (ID),
+    IsDeleted   boolean,
+    Name	character varying,
+    IsActive    boolean,
+    TigerType  	character varying
+);
+
+CREATE TABLE device_measurement (
+    ID          bigserial PRIMARY KEY,
+    DviceID	integer REFERENCES device (ID),
+    PowerConsumption	integer,
+    SocketVoltage    integer,
+    MeasurementTime  	timestamp with time zone default current_timestamp
+);
