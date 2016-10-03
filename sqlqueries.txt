@@ -74,3 +74,10 @@ CREATE TABLE device_measurement (
     SocketVoltage    integer,
     MeasurementTime  	timestamp with time zone default current_timestamp
 );
+
+CREATE TABLE alarms_and_warnings (
+    ID          bigserial PRIMARY KEY,
+    DviceID	integer REFERENCES device (ID),
+    draw_current_warrning    boolean,
+    is_alarm_on boolean
+);

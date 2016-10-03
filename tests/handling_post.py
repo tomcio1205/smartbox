@@ -31,9 +31,12 @@ class ApiPage(Resource):
 	#     return '<html><body><form method="POST"><input name="the-field" type="text" /></form></body></html>'
 
 	def render_POST(self, request):
-		x = json.loads(request.content.read())
-		print x
-		request.write('<html><body>You submitted: %r</body></html>' % x)  # (cgi.escape(request.content.read()),)
+		data = json.loads(request.content.read())
+		db_operation = DatabaseCommunication()
+		query = "UPDATE device SET ison = '%s' WHERE id = %s" % (data['ison'], data['smart_id'])
+		db_operation.insert_operation(query)
+		# print x['smart_id']
+		request.write('<html><body>You submitted: %r</body></html>' % data)  # (cgi.escape(request.content.read()),)
 
 	# request.finish()
 
@@ -69,7 +72,8 @@ class SmartboxPage(Resource):
 		else:
 			print "Sumy kontrolne różne, nie rozpatruję paczki \n"
 			return 0
-
+		list_of_all_smartboxes_id = []
+		smart_pins = {}
 		if f_key == f_key_output_state:
 			count_smartboxes = (len(list_of_bytes) - 2) / 7
 			print "Stan wyjścia obecny"
@@ -77,6 +81,7 @@ class SmartboxPage(Resource):
 				smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7:smartbox * 7 + 2])
 				# convert id to decimal
 				smart_id = int(smart_id_hex.encode('hex'), 16)
+				list_of_all_smartboxes_id.append(smart_id)
 				# 5 and 6 bytes represent power consumption of electric socket which master smartbox is connected to
 				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7 + 4:smartbox * 7 + 6])
 				# convert power consumption to decimal
@@ -88,22 +93,51 @@ class SmartboxPage(Resource):
 				# current_voltage = int(current_voltage_hex.encode('hex'), 16)
 
 				current_voltage = list_of_bytes[smartbox * 7 + 6]
-
+				# +3 because pin is fourth in package (we count from 0 so is +3)
+				smart_pins[smart_id] = int(chr(list_of_bytes[smartbox * 7 + 3]).encode('hex'), 16)
 				print "My smart id: %d" % smart_id
 				print "Power consumption: %d mA/s" % power_consumption
 				print "Voltage of electrical socket: %d V" % current_voltage
 
 				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d)" % (smart_id, power_consumption, current_voltage)
-				db_operation.update_operation(query)
+				# db_operation.insert_operation(query)
 		# build package which will be sending
 		# TODO what will be send?
-		list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3], list_of_bytes[4],
-		                           list_of_bytes[5], 128, list_of_bytes[6]])
+		#query to check smartboxes status "ison"
+		query_ison = "select id, ison from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
+		result_ison = db_operation.select_operation(query_ison)
+		# print list_of_all_smartboxes_id
+		# print smart_pins
+		for num, ids in enumerate(list_of_all_smartboxes_id):
+			# we must cut decimal id to bytes - 451 -> to hex -> to bytes in dec
+			smart_id_hex = bytearray(pack('H', ids))
+			smart_id_dec_low = int(chr(smart_id_hex[1]).encode('hex'), 16)
+			smart_id_dec_high = int(chr(smart_id_hex[0]).encode('hex'), 16)
+			# fill package - id low, id high, ison, pin
+			list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, int(result_ison[num][1]), smart_pins[ids]])
+		# list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3], list_of_bytes[4],
+		#                            list_of_bytes[5], 128, list_of_bytes[6]])
 		# sending bytes(list_of_bytes_send) and reading in smartbox with     Serial.println(line)->[1, 244, 255]
 		# Serial.println(line[4]) -> 2 we get single sign from string
-		print "%r" % ''.join(str(bytearray(list_of_bytes_send)))
-		request.write(''.join(str(bytearray(list_of_bytes_send))))
 
+		# list_of_bytes_send = [1, 195, 128, 144, 4, 226, 128, 230, 12]
+
+		sum_of_bytes = sum(list_of_bytes_send)
+		sum_control = CRCCCITT().calculate(str(sum_of_bytes))
+		sum_control_array = bytearray(pack('H', sum_control))
+
+		list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
+		# list_of_bytes_send.append('p')
+		# list_of_bytes_send = [1, 195, 1, 144, 1, 0,196, 255, 1, 197, 255, 110, 92]
+		print "%r" % list_of_bytes_send
+		print "%r" % ''.join(str(bytearray(list_of_bytes_send)))
+		package = ''.join(str(bytearray(list_of_bytes_send)))
+		package_r = ':'.join(str(x) for x in list_of_bytes_send)
+		package_r += ':p'
+		print "%r" % package_r
+		request.write(package_r)
+
+		#Is this really necessary?
 		if f_key == f_key_wrong_pin:
 			print "W naszej poprzedniej rozmowie podałeś błędny PIN"
 
@@ -169,7 +203,7 @@ class SmartboxPage(Resource):
 			# port is saved in two bytes, port varaible in example i equal to 8000
 			# so port port_byte is write in two bytes, for 8000 is equal to '@\x1f'
 			# port_byte[0] = 64 , port_byte[1] = 31
-			port_byte = bytearray(pack('h', port))
+			port_byte = bytearray(pack('H', port))
 			# TODO don't know how set 3rd byte
 			# for now 3rd byte will be resend
 			# TODO for now nothing change in first 3 byte so maybe mask is not necessary?
@@ -209,12 +243,13 @@ class DatabaseCommunication:
 		self.conn.close()
 		return rows
 
-	def update_operation(self, query):
+	def insert_operation(self, query):
 		# database connection
 		cur = self.conn.cursor()
 		cur.execute(query)
 
 		self.conn.commit()
+		# return 0
 		# self.conn.close()
 
 root = Resource()

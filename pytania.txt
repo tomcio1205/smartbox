@@ -34,4 +34,6 @@ ilość bajtów a resztę zerujemy czy zmniejszamy paczkę? jak jest więcej ni�
 14. serwer przekazuje smartboxowi informacje o czynnościach które mają wykonać podległe mu smartboxy ( normalny tryb pracy),
 co w przypadku gdy serwer nic nie karze robić podległym smartboxom? jak mam ustawic wtedy f-key? czym jest stan wyjscia zadany?
 15. Jak ustawiony jest f_key dla normalnego trybu pracy?
-16.
+16.WAŻNE!!! id zapisywane jest na dwóch bajtach - max 65535, w tabeli device zapisywany jest to id bo po nim się odwołujemy
+więc po zarejestrowaniu 65535 smartboxów pojawi się problem bo większej wartości nie zapiszemy w dwóch bajtach
+

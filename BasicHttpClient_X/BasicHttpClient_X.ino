@@ -6,18 +6,27 @@
  */
 
 #include <Arduino.h>
-
+#include <stdlib.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include "Crc16.h"
 #include <ESP8266HTTPClient.h>
 
 #define USE_SERIAL Serial
+#define f_key_configuration_package 128
+#define f_key_next_willbe_configuration 64
+#define f_key_send_report 16
+#define f_key_make_reset 4
+#define f_key_make_alarm_reset 2
+#define f_key_output_state_high 1
+#define f_key_output_state_low 0
 
+//#define ARRAY_SIZE 32
 Crc16 crc; 
 
 ESP8266WiFiMulti WiFiMulti;
 
+//byte byteArray[ARRAY_SIZE];
 String data = "";
 char bb0 = 1;
 char bb1 = 195;
@@ -41,7 +50,31 @@ char bb18 = 4;
 char bb19 = 226;
 char bb20 = 1;
 
+//byte b0 = 1;
+//byte b1 = 195;
+//byte b2 = 1;
+//byte b3 = 144;
+//byte b4 = 4;
+//byte b5 = 226;
+//byte b6 = 230;
+//byte b7 = 1;
+//byte b8 = 196;
+//byte b9 = 1;
+//byte b10 = 255;
+//byte b11 = 4;
+//byte b12 = 226;
+//byte b13 = 230;
+//byte b14 = 1;
+//byte b15 = 197;
+//byte b16 = 1;
+//byte b17 = 255;
+//byte b18 = 4;
+//byte b19 = 226;
+//byte b20 = 0;
+
 void setup() {
+
+    pinMode(12, OUTPUT);
 
     USE_SERIAL.begin(115200);
    // USE_SERIAL.setDebugOutput(true);
@@ -89,12 +122,18 @@ void loop() {
         data += bb18;
         data += bb19;
         data += bb20;
+
+//        byteArray[0] = 1;
+//        byteArray[1] = 255;
+//        byteArray[2] = 12;
+//        byteArray[3] = 144;
+//        byteArray[4] = 0;
         
         crc.clearCrc();
         for (int i=0; i<data.length(); i++)
         {
 //          USE_SERIAL.println(int(0), HEX);
-          crc.updateCrc((int)data[i]);
+          crc.updateCrc(data[i]);
         }
         unsigned short value = crc.getCrc();
       //  Serial.print("Checksum ");
@@ -122,25 +161,63 @@ void loop() {
             // file found at server
             if(httpCode == HTTP_CODE_OK) {
                 String payload = http.getString();
-                USE_SERIAL.println(payload);
+                //get only package from response
+                //'1:195:1:144:1:196:0:255:1:197:0:255:110:92:p'
+                String package = "";
                   for (int i=0; i<payload.length(); i++)
                   {
-                    if (payload[i] == 'p')
+                    if (payload[i]== 'p')
                     {
                       break;
                     }
-                    USE_SERIAL.print("Value of byte number ");
-                    USE_SERIAL.print(i);
-                    USE_SERIAL.print(" : ");
-                    USE_SERIAL.println(payload[i], HEX);
+                    package += payload[i];
+                  }
+                  char input[1024];
+                  // if size of value array is big exception was thrown, we must check this
+                  // try with reserve memory with malloc or other??
+                  int value[300];
+                  char number;
+                  String byte_value= "";
+                  int i = 0;
+                  int k = 0;
+                  strcpy(input, package.c_str());
+                  while (input[i] != NULL)
+                  {
+                    number = input[i];
+                    
+                    if (number == ':')
+                    {
+                      value[k] = byte_value.toInt(); 
+                      byte_value = "";
+                      k ++;
+                    }
+                    else
+                    {
+                      byte_value += number;                                                
+                    }
+                    i++;
+                  }
+//                for (int i=0; i<k; i++)
+//                {
+//                  USE_SERIAL.println(value[i]);             
+//                }
+                  if (value[2] == f_key_output_state_high)
+                  {
+                    USE_SERIAL.println("Set high");
+                    digitalWrite(12, HIGH);
+                  }
+                  if (value[2] == f_key_output_state_low)
+                  {
+                    USE_SERIAL.println("Set low");
+                    digitalWrite(12, LOW);
                   }
             }
         } else {
             USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
         }
-
         http.end();
     }
+    
 
     delay(10000);
 }

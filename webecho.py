@@ -240,5 +240,5 @@ class HTTPEchoFactory(protocol.ServerFactory):
 # 		if f_key == f_key_output_state:
 # 			print "Stan wyjścia obecny"
 
-reactor.listenTCP(8000, HTTPEchoFactory())
+reactor.listenTCP(8880, HTTPEchoFactory())
 reactor.run()
