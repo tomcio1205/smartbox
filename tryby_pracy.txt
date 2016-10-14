@@ -1,0 +1,16 @@
+NORMALNY TRYB PRACY :
+Dla normalnego trybu pracy smartbox wysyła następujące informacje:
+    - id smartboxa (2 bajty)
+    - f_key określający czynność (1 bajt)
+    - pin do autoryzacji (1 bajt)
+    - pobór z gniazdka (2 bajty)
+    - napięcie (1 bajt)
+Dla pojedynczego smartboxa wysyłana jest powyższa sekwencja (7 bajtów). Jeśli w sieci są 2 smartboxy
+będzie to 14 bajtów, 3 smartboxy - 21 bajtów. Na końcu dorzucane są 2 bajty sumy kontrolnej.
+
+Serwer wysyła:
+    - id smartboxa dla którego przeznaczone są informacje (2 bajty)
+    - f_key określający czynności do wykonania (1 bajt)
+    - pin do autoryzacji (1 bajt)
+Tak samo w tym przypadku jest to sekwencja 4 bajtów dla jednego smartboxa. Również doklejane są 2 bajty
+sumy kontrolnej.

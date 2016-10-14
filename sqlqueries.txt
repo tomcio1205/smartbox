@@ -1,83 +1,84 @@
 CREATE TABLE users (
     ID          bigserial PRIMARY KEY,
-    IsDeleted   boolean,
-    FirstName	character varying,
-    LastName    character varying,
-    Email       character varying,
-    PhoneNUmber integer 
+    is_deleted   boolean,
+    first_name	character varying,
+    last_name    character varying,
+    email       character varying,
+    phone_number integer
 );
 
 CREATE TABLE family (
     ID          bigserial PRIMARY KEY ,
-    IsDeleted   boolean,
-    MainUserID  integer REFERENCES Users (ID)
+    is_deleted   boolean,
+    main_user_id  integer REFERENCES Users (ID)
 );
 
 CREATE TABLE family_users (
-    FamilyID    integer REFERENCES Family (ID),
-    UserID      integer REFERENCES Users (ID),
-    IdDeleted	boolean
+    family_id    integer REFERENCES Family (ID),
+    user_id      integer REFERENCES Users (ID),
+    is_deleted	boolean
 );
 
 CREATE TABLE area (
     ID          bigserial PRIMARY KEY,
-    IsDeleted   boolean,
+    is_deleted   boolean,
     Name	character varying,
-    IsActive    boolean,
-    IsOn        boolean,
-    AntiTheft   boolean,
-    SimulatePresence boolean
+    Is_Active    boolean,
+    Is_On        boolean,
+    Anti_Theft   boolean,
+    Simulate_Presence boolean
 );
 
 CREATE TABLE user_area (
     UserID      integer REFERENCES users (ID),
-    IsDeleted   boolean,
-    AreaID	integer REFERENCES area (ID)
+    is_deleted   boolean,
+    Area_ID	integer REFERENCES area (ID)
 );
 
 CREATE TABLE device (
     ID          bigserial PRIMARY KEY,
-    IsDeleted   boolean,
+    is_deleted   boolean,
     Name	character varying,
-    IsOn        boolean,
-    AntiTheft   boolean,
-    SimulatePresence boolean
+    Is_On        boolean,
+    Anti_Theft   boolean,
+    Simulate_Presence boolean,
+    should_reset boolean
 );
 
 CREATE TABLE user_device (
-    UserID      integer REFERENCES users (ID),
-    IsDeleted   boolean,
-    DviceID	integer REFERENCES device (ID)
+    User_ID      integer REFERENCES users (ID),
+    is_deleted   boolean,
+    Dvice_ID	integer REFERENCES device (ID)
 );
 
 CREATE TABLE area_device (
-    AreaID      integer REFERENCES area (ID),
-    IsDeleted   boolean,
-    DviceID	integer REFERENCES device (ID)
+    Area_ID      integer REFERENCES area (ID),
+    is_deleted   boolean,
+    Dvice_ID	integer REFERENCES device (ID)
 );
 
 CREATE TABLE task (
     ID          bigserial PRIMARY KEY,
-    DviceID	integer REFERENCES device (ID),
-    UserID	integer REFERENCES users (ID),
-    AreaID      integer REFERENCES area (ID),
-    IsDeleted   boolean,
+    Dvice_ID	integer REFERENCES device (ID),
+    User_ID	integer REFERENCES users (ID),
+    Area_ID      integer REFERENCES area (ID),
+    is_deleted   boolean,
     Name	character varying,
-    IsActive    boolean,
-    TigerType  	character varying
+    Is_Active    boolean,
+    Tiger_Type  	character varying
 );
 
 CREATE TABLE device_measurement (
     ID          bigserial PRIMARY KEY,
-    DviceID	integer REFERENCES device (ID),
-    PowerConsumption	integer,
-    SocketVoltage    integer,
-    MeasurementTime  	timestamp with time zone default current_timestamp
+    Dvice_ID	integer REFERENCES device (ID),
+    Power_Consumption	integer,
+    Socket_Voltage    integer,
+    Measurement_Time  	timestamp with time zone default current_timestamp
 );
 
 CREATE TABLE alarms_and_warnings (
     ID          bigserial PRIMARY KEY,
-    DviceID	integer REFERENCES device (ID),
+    Dvice_ID	integer REFERENCES device (ID),
     draw_current_warrning    boolean,
     is_alarm_on boolean
 );

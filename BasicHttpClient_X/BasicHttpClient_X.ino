@@ -16,7 +16,8 @@
 #define f_key_configuration_package 128
 #define f_key_next_willbe_configuration 64
 #define f_key_send_report 16
-#define f_key_make_reset 4
+#define f_key_make_reset_low 4
+#define f_key_make_reset_high 5
 #define f_key_make_alarm_reset 2
 #define f_key_output_state_high 1
 #define f_key_output_state_low 0
@@ -89,7 +90,8 @@ void setup() {
         delay(1000);
     }
 
-    WiFiMulti.addAP("NETIASPOT-52CC50", "c2svzibeu6i5");
+    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
+//    WiFiMulti.addAP("NETIASPOT-52CC50", "c2svzibeu6i5");
 //    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
 
 }
@@ -145,7 +147,7 @@ void loop() {
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
         //http.begin("https://192.168.1.12/test.html", "7a 9c f4 db 40 d3 62 5a 6e 21 bc 5c cc 66 c8 3e a1 45 59 38"); //HTTPS
-        http.begin("http://192.168.1.9:8880/smartbox"); //HTTP
+        http.begin("http://192.168.2.115:8880/smartbox"); //HTTP
 
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
@@ -201,16 +203,34 @@ void loop() {
 //                {
 //                  USE_SERIAL.println(value[i]);             
 //                }
-                  if (value[2] == f_key_output_state_high)
+                  if (value[2] == f_key_make_reset_low || value[2] == f_key_make_reset_high)
+                  {
+                    digitalWrite(12, LOW);
+                    delay(100);
+                    digitalWrite(12, HIGH);
+                    delay(100);
+                    digitalWrite(12, LOW);
+                    delay(100);
+                    digitalWrite(12, HIGH);
+                    delay(100);
+                    digitalWrite(12, LOW);
+                    delay(100);
+                    digitalWrite(12, HIGH);
+                    delay(100);
+                    digitalWrite(12, LOW);                      
+                                        
+                  }
+                  if (value[2] == f_key_output_state_high || value[2] == f_key_make_reset_high)
                   {
                     USE_SERIAL.println("Set high");
                     digitalWrite(12, HIGH);
                   }
-                  if (value[2] == f_key_output_state_low)
+                  if (value[2] == f_key_output_state_low || value[2] == f_key_make_reset_low)
                   {
                     USE_SERIAL.println("Set low");
                     digitalWrite(12, LOW);
                   }
+
             }
         } else {
             USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
@@ -219,6 +239,6 @@ void loop() {
     }
     
 
-    delay(10000);
+    delay(1000);
 }
 

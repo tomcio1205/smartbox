@@ -33,7 +33,18 @@ class ApiPage(Resource):
 	def render_POST(self, request):
 		data = json.loads(request.content.read())
 		db_operation = DatabaseCommunication()
-		query = "UPDATE device SET ison = '%s' WHERE id = %s" % (data['ison'], data['smart_id'])
+		comma = 0
+		# query = "UPDATE device SET ison = '%s' WHERE id = %s" % (data['ison'], data['smart_id'])
+		query = "UPDATE device SET "
+		if 'ison' in data:
+			query += "ison = '%s' " % data['ison']
+			comma += 1
+		if 'should_reset' in data:
+			if comma:
+				query += ", "
+			query += "should_reset = '%s' " % data['should_reset']
+		query += "WHERE id = %s" % data['smart_id']
+
 		db_operation.insert_operation(query)
 		# print x['smart_id']
 		request.write('<html><body>You submitted: %r</body></html>' % data)  # (cgi.escape(request.content.read()),)
@@ -51,6 +62,7 @@ class SmartboxPage(Resource):
 		request.write("cccccccccccccccc")
 
 	def handling_samrtbox_data(self, request, data):
+
 		list_of_bytes = [ord(my_byte) for my_byte in data]
 		print "%r" % data
 		f_key = list_of_bytes[2]
@@ -66,7 +78,6 @@ class SmartboxPage(Resource):
 		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
 		receive_sum_control = int(receive_sum_control_hex, 16)
 		db_operation = DatabaseCommunication()
-
 		if checksum == receive_sum_control:
 			print "Suma kontrolna zweryfikowana poprawnie"
 		else:
@@ -74,64 +85,69 @@ class SmartboxPage(Resource):
 			return 0
 		list_of_all_smartboxes_id = []
 		smart_pins = {}
+
+		# this will be done if smartbox work in normal mode
 		if f_key == f_key_output_state:
+			# count smartboxes which are included in package (-2 because last two bytes are bytes of sum controll)
 			count_smartboxes = (len(list_of_bytes) - 2) / 7
 			print "Stan wyjścia obecny"
 			for smartbox in range(count_smartboxes):
+				# convert bytes to hex, first of two bytes are id of smartbox, so first we need to convert
+				# its to hex and next this two bytes convert to one decimal value
 				smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7:smartbox * 7 + 2])
 				# convert id to decimal
 				smart_id = int(smart_id_hex.encode('hex'), 16)
+				# append all ids to list
 				list_of_all_smartboxes_id.append(smart_id)
 				# 5 and 6 bytes represent power consumption of electric socket which master smartbox is connected to
 				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7 + 4:smartbox * 7 + 6])
 				# convert power consumption to decimal
 				power_consumption = int(power_consumption_hex.encode('hex'), 16)
-
 				# 7 bytes represent voltage of electric socket which master smartbox is connected to
-				# current_voltage_hex = chr(list_of_bytes[smartbox*7+6])
-				# convert voltage to decimal
-				# current_voltage = int(current_voltage_hex.encode('hex'), 16)
-
 				current_voltage = list_of_bytes[smartbox * 7 + 6]
 				# +3 because pin is fourth in package (we count from 0 so is +3)
 				smart_pins[smart_id] = int(chr(list_of_bytes[smartbox * 7 + 3]).encode('hex'), 16)
 				print "My smart id: %d" % smart_id
 				print "Power consumption: %d mA/s" % power_consumption
 				print "Voltage of electrical socket: %d V" % current_voltage
-
+				# insert to table all records which we get from package
 				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d)" % (smart_id, power_consumption, current_voltage)
-				# db_operation.insert_operation(query)
+				db_operation.insert_operation(query)
 		# build package which will be sending
-		# TODO what will be send?
-		#query to check smartboxes status "ison"
-		query_ison = "select id, ison from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
+		# TODO what will be send in normal mode?
+		#query to check all smartboxes "ison" status
+		query_ison = "select id, ison, should_reset from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
 		result_ison = db_operation.select_operation(query_ison)
-		# print list_of_all_smartboxes_id
-		# print smart_pins
+		f_key_send = 0;
+		list_ids_change_reset = []
 		for num, ids in enumerate(list_of_all_smartboxes_id):
 			# we must cut decimal id to bytes - 451 -> to hex -> to bytes in dec
 			smart_id_hex = bytearray(pack('H', ids))
 			smart_id_dec_low = int(chr(smart_id_hex[1]).encode('hex'), 16)
 			smart_id_dec_high = int(chr(smart_id_hex[0]).encode('hex'), 16)
+			f_key_send += int(result_ison[num][1])
+			# if smartob should reset add 4 to f_key (third byte is high)
+			if result_ison[num][2]:
+				f_key_send += 4
+				list_ids_change_reset.append(ids)
 			# fill package - id low, id high, ison, pin
-			list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, int(result_ison[num][1]), smart_pins[ids]])
-		# list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3], list_of_bytes[4],
-		#                            list_of_bytes[5], 128, list_of_bytes[6]])
-		# sending bytes(list_of_bytes_send) and reading in smartbox with     Serial.println(line)->[1, 244, 255]
-		# Serial.println(line[4]) -> 2 we get single sign from string
-
-		# list_of_bytes_send = [1, 195, 128, 144, 4, 226, 128, 230, 12]
-
+			list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, f_key_send, smart_pins[ids]])
+		# with one element tuple is like (451,) so with this comma it isn't correct query
+		if len(list_ids_change_reset) > 1:
+			query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (tuple(list_ids_change_reset),)
+			db_operation.insert_operation(query_change_reset_status)
+		if len(list_ids_change_reset) == 1:
+			query_change_reset_status = "Update device set should_reset = 'False' where id = %s" % list_ids_change_reset[0]
+			db_operation.insert_operation(query_change_reset_status)
+		# calculatesum control
 		sum_of_bytes = sum(list_of_bytes_send)
 		sum_control = CRCCCITT().calculate(str(sum_of_bytes))
 		sum_control_array = bytearray(pack('H', sum_control))
 
 		list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
-		# list_of_bytes_send.append('p')
-		# list_of_bytes_send = [1, 195, 1, 144, 1, 0,196, 255, 1, 197, 255, 110, 92]
-		print "%r" % list_of_bytes_send
-		print "%r" % ''.join(str(bytearray(list_of_bytes_send)))
-		package = ''.join(str(bytearray(list_of_bytes_send)))
+
+		# print "%r" % list_of_bytes_send
+		# print "%r" % ''.join(str(bytearray(list_of_bytes_send)))
 		package_r = ':'.join(str(x) for x in list_of_bytes_send)
 		package_r += ':p'
 		print "%r" % package_r
@@ -240,7 +256,7 @@ class DatabaseCommunication:
 		cur = self.conn.cursor()
 		cur.execute(query)
 		rows = cur.fetchall()
-		self.conn.close()
+		# self.conn.close()
 		return rows
 
 	def insert_operation(self, query):

@@ -1,0 +1,2 @@
+1. Wprowadzić domyślne dane w bazie, np dla wartości should_reset ustawić domyślnie False
+2. Skupić sie na poprawieniu wydajności zapytań. Błąd, który się pojawiał: psycopg2.InterfaceError: connection already closed

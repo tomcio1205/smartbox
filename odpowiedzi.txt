@@ -1,0 +1,2 @@
+paczka konfiguracyjna będzie wysyłana z aplikacji, nie bedzie tego na serwerze.
+sprawidfzić sobie widoki na psotgresie żeby nie odpytywać za każdym razem bazy. Widoki będą szybsze

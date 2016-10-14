@@ -30,10 +30,19 @@ jeśli nie to kiedy serwer ma inicjować prośbę o wysłanie raportu na temat s
 ilość bajtów a resztę zerujemy czy zmniejszamy paczkę? jak jest więcej niż pomieści 32 bajtowa paczka?
 12. jak będzie wyglądać hasło do smartboxów bo bluetooth?
 
-13. Kiedy serwer karze się zresetować smartboxowi?
+13. Kiedy serwer każe się zresetować smartboxowi?
 14. serwer przekazuje smartboxowi informacje o czynnościach które mają wykonać podległe mu smartboxy ( normalny tryb pracy),
 co w przypadku gdy serwer nic nie karze robić podległym smartboxom? jak mam ustawic wtedy f-key? czym jest stan wyjscia zadany?
 15. Jak ustawiony jest f_key dla normalnego trybu pracy?
 16.WAŻNE!!! id zapisywane jest na dwóch bajtach - max 65535, w tabeli device zapisywany jest to id bo po nim się odwołujemy
 więc po zarejestrowaniu 65535 smartboxów pojawi się problem bo większej wartości nie zapiszemy w dwóch bajtach
-
+17 Jakie aprametry będą ustawiane z poziomu aplikacji? Musimy maksymalnie ograniczyć zapytania do bazy
+18. Jak robimy reset? Wysyłamy informację do bazy zmieniając parametr should_reset na true, czy wogóle rezygnujemy
+z uwzględnianiem bazy a paczkę wysyłamy od razu po uzyskaniu informacji że ma sie zresetować. (Apka inicjuje
+reset a nie jest on wynikiem zmiany stanu dla normalnego trybu pracy)
+19. Takie samo pytanie dotyczy prośby o wysłanie raportu?
+20. W jaki sposób tak iraport będzie wogóle generowany po stronie smsartboxa? Jak będzie przechowywał dane
+o połączeniach ?
+21. Jak dokładnie będzie działał proces rejestracji smartboxów i wysyłania paczki konfiguracyjnej?
+22. Jak będzie odbywała sie autoryzacja na podstawie pinu? jak będzie generowany pin?
+23. Jak będzie wyglądał fragment bazy odpowiedzialny za przetrzymywanie danych dotyczących sieci?

@@ -1,0 +1,8 @@
+Dnia 6.10 przeprowadzono testy serwera oraz programu smartboxa. Wymagała tego niestabilna praca
+smartboxa i jego dość częste resety. SMartbox pracował przez godzinę odpytując serwer co 1 sekundę.
+DO ROZPATRZENIA : potrzebne jest przechowywanie stanu resetu danego serwera, tj. z poziomu aplikacji
+mówimy smartboxowi żeby sie zresetował, informację tę zapisujemy w bazie. Z uwagi na to dodane zostało dodatkowe
+pole do tablei "device" o nazwie should_reset. Wartość ta będzie zaciagana w momencie komunikacji z serwerem.
+Do rozpatrzenia jest to czy to pole powinno się znajdować w tej tabeli. Zastanowić się wogóle czy taka informacja
+powinna być wogóle zachowywana w bazie, czy może powinniśmy wysyłać odpowiednią paczkę od razu do smartboxa
+po uzyskaniu informacji że ma się zresetować
