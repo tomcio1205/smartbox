@@ -1,0 +1,867 @@
+
+NEXT TEST FOR MEASURE REQUEST TIME (100 THREADS)
+
+Thread number Thread - 1:  : Request latency: 0.0342 s 
+Thread number Thread - 2:  : Request latency: 0.0334 s 
+Thread number Thread - 3:  : Request latency: 0.4097 s 
+Thread number Thread - 4:  : Request latency: 0.4102 s 
+Thread number Thread - 6:  : Request latency: 1.0871 s 
+Thread number Thread - 5:  : Request latency: 1.0869 s 
+Thread number Thread - 7:  : Request latency: 1.0874 s 
+Thread number Thread - 8:  : Request latency: 1.0877 s 
+Thread number Thread - 9:  : Request latency: 1.0880 s 
+Thread number Thread - 22:  : Request latency: 1.0872 s 
+Thread number Thread - 20:  : Request latency: 1.0871 s 
+Thread number Thread - 23:  : Request latency: 1.1004 s 
+Thread number Thread - 24:  : Request latency: 1.1001 s 
+Thread number Thread - 25:  : Request latency: 1.0997 s 
+Thread number Thread - 17:  : Request latency: 1.1019 s 
+Thread number Thread - 15:  : Request latency: 1.1024 s 
+Thread number Thread - 21:  : Request latency: 1.1008 s 
+Thread number Thread - 16:  : Request latency: 1.1022 s 
+Thread number Thread - 12:  : Request latency: 1.1032 s 
+Thread number Thread - 19:  : Request latency: 1.1016 s 
+Thread number Thread - 14:  : Request latency: 1.1028 s 
+Thread number Thread - 26:  : Request latency: 1.0999 s 
+Thread number Thread - 13:  : Request latency: 1.1031 s 
+Thread number Thread - 18:  : Request latency: 1.1019 s 
+Thread number Thread - 10:  : Request latency: 1.1039 s 
+Thread number Thread - 11:  : Request latency: 1.1038 s 
+Thread number Thread - 27:  : Request latency: 1.2411 s 
+Thread number Thread - 28:  : Request latency: 1.2417 s 
+Thread number Thread - 29:  : Request latency: 1.2422 s 
+Thread number Thread - 32:  : Request latency: 1.2439 s 
+Thread number Thread - 31:  : Request latency: 1.2444 s 
+Thread number Thread - 30:  : Request latency: 1.2455 s 
+Thread number Thread - 33:  : Request latency: 1.2459 s 
+Thread number Thread - 36:  : Request latency: 1.2481 s 
+Thread number Thread - 35:  : Request latency: 1.2477 s 
+Thread number Thread - 34:  : Request latency: 1.2473 s 
+Thread number Thread - 52:  : Request latency: 1.2512 s 
+Thread number Thread - 84:  : Request latency: 1.2330 s 
+Thread number Thread - 79:  : Request latency: 1.2466 s 
+Thread number Thread - 80:  : Request latency: 1.2473 s 
+Thread number Thread - 47:  : Request latency: 1.2646 s 
+Thread number Thread - 37:  : Request latency: 1.2699 s 
+Thread number Thread - 42:  : Request latency: 1.2850 s 
+Thread number Thread - 53:  : Request latency: 1.2766 s 
+Thread number Thread - 44:  : Request latency: 1.2853 s 
+Thread number Thread - 43:  : Request latency: 1.2849 s 
+Thread number Thread - 48:  : Request latency: 1.2817 s 
+Thread number Thread - 86:  : Request latency: 1.2628 s 
+Thread number Thread - 45:  : Request latency: 1.2854 s 
+Thread number Thread - 49:  : Request latency: 1.2825 s 
+Thread number Thread - 82:  : Request latency: 1.2641 s 
+Thread number Thread - 78:  : Request latency: 1.2652 s 
+Thread number Thread - 51:  : Request latency: 1.2825 s 
+Thread number Thread - 89:  : Request latency: 1.2587 s 
+Thread number Thread - 83:  : Request latency: 1.2635 s 
+Thread number Thread - 85:  : Request latency: 1.2629 s 
+Thread number Thread - 87:  : Request latency: 1.2624 s 
+Thread number Thread - 90:  : Request latency: 1.2586 s 
+Thread number Thread - 39:  : Request latency: 1.2871 s 
+Thread number Thread - 38:  : Request latency: 1.2876 s 
+Thread number Thread - 81:  : Request latency: 1.2645 s 
+Thread number Thread - 40:  : Request latency: 1.2874 s 
+Thread number Thread - 88:  : Request latency: 1.2597 s 
+Thread number Thread - 77:  : Request latency: 1.2719 s 
+Thread number Thread - 50:  : Request latency: 1.2831 s 
+Thread number Thread - 41:  : Request latency: 1.2872 s 
+Thread number Thread - 91:  : Request latency: 1.2590 s 
+Thread number Thread - 46:  : Request latency: 1.2858 s 
+Thread number Thread - 54:  : Request latency: 1.4097 s 
+Thread number Thread - 97:  : Request latency: 1.3878 s 
+Thread number Thread - 55:  : Request latency: 1.4102 s 
+Thread number Thread - 96:  : Request latency: 1.3916 s 
+Thread number Thread - 95:  : Request latency: 1.3924 s 
+Thread number Thread - 93:  : Request latency: 1.3936 s 
+Thread number Thread - 92:  : Request latency: 1.3946 s 
+Thread number Thread - 94:  : Request latency: 1.3941 s 
+Thread number Thread - 98:  : Request latency: 1.3936 s 
+Thread number Thread - 99:  : Request latency: 1.3938 s 
+Thread number Thread - 66:  : Request latency: 1.5891 s 
+Thread number Thread - 62:  : Request latency: 1.5960 s 
+Thread number Thread - 63:  : Request latency: 1.5950 s 
+Thread number Thread - 65:  : Request latency: 1.5930 s 
+Thread number Thread - 64:  : Request latency: 1.5943 s 
+Thread number Thread - 61:  : Request latency: 1.5968 s 
+Thread number Thread - 60:  : Request latency: 1.5975 s 
+Thread number Thread - 57:  : Request latency: 1.5999 s 
+Thread number Thread - 58:  : Request latency: 1.5991 s 
+Thread number Thread - 59:  : Request latency: 1.5984 s 
+Thread number Thread - 56:  : Request latency: 1.6043 s 
+Thread number Thread - 69:  : Request latency: 1.6054 s 
+Thread number Thread - 68:  : Request latency: 1.6051 s 
+Thread number Thread - 70:  : Request latency: 1.6058 s 
+Thread number Thread - 67:  : Request latency: 1.6071 s 
+Thread number Thread - 73:  : Request latency: 1.6080 s 
+Thread number Thread - 72:  : Request latency: 1.6081 s 
+Thread number Thread - 71:  : Request latency: 1.6086 s 
+Thread number Thread - 76:  : Request latency: 1.6074 s 
+Thread number Thread - 74:  : Request latency: 1.6077 s 
+Thread number Thread - 75:  : Request latency: 1.6079 s 
+Thread number Thread - 2:  : Request latency: 0.0315 s 
+Thread number Thread - 1:  : Request latency: 0.0324 s 
+Thread number Thread - 4:  : Request latency: 0.0367 s 
+Thread number Thread - 3:  : Request latency: 0.0382 s 
+Thread number Thread - 6:  : Request latency: 0.0381 s 
+Thread number Thread - 5:  : Request latency: 0.0383 s 
+Thread number Thread - 7:  : Request latency: 0.3735 s 
+Thread number Thread - 9:  : Request latency: 0.3741 s 
+Thread number Thread - 8:  : Request latency: 0.3750 s 
+Thread number Thread - 24:  : Request latency: 0.3589 s 
+Thread number Thread - 23:  : Request latency: 0.3598 s 
+Thread number Thread - 20:  : Request latency: 0.3723 s 
+Thread number Thread - 15:  : Request latency: 0.3727 s 
+Thread number Thread - 17:  : Request latency: 0.3734 s 
+Thread number Thread - 19:  : Request latency: 0.3732 s 
+Thread number Thread - 25:  : Request latency: 0.3740 s 
+Thread number Thread - 14:  : Request latency: 0.3731 s 
+Thread number Thread - 22:  : Request latency: 0.3886 s 
+Thread number Thread - 12:  : Request latency: 0.3735 s 
+Thread number Thread - 16:  : Request latency: 0.3736 s 
+Thread number Thread - 21:  : Request latency: 0.3738 s 
+Thread number Thread - 13:  : Request latency: 0.3730 s 
+Thread number Thread - 26:  : Request latency: 0.3732 s 
+Thread number Thread - 11:  : Request latency: 0.3727 s 
+Thread number Thread - 18:  : Request latency: 0.3730 s 
+Thread number Thread - 10:  : Request latency: 0.3729 s 
+Thread number Thread - 30:  : Request latency: 1.0776 s 
+Thread number Thread - 34:  : Request latency: 1.0807 s 
+Thread number Thread - 35:  : Request latency: 1.0805 s 
+Thread number Thread - 79:  : Request latency: 1.0564 s 
+Thread number Thread - 36:  : Request latency: 1.0824 s 
+Thread number Thread - 80:  : Request latency: 1.0561 s 
+Thread number Thread - 52:  : Request latency: 1.0732 s 
+Thread number Thread - 29:  : Request latency: 1.0893 s 
+Thread number Thread - 84:  : Request latency: 1.0721 s 
+Thread number Thread - 37:  : Request latency: 1.0595 s 
+Thread number Thread - 47:  : Request latency: 1.0569 s 
+Thread number Thread - 28:  : Request latency: 1.0920 s 
+Thread number Thread - 27:  : Request latency: 1.0941 s 
+Thread number Thread - 33:  : Request latency: 1.0886 s 
+Thread number Thread - 53:  : Request latency: 1.0480 s 
+Thread number Thread - 42:  : Request latency: 1.0478 s 
+Thread number Thread - 31:  : Request latency: 1.0942 s 
+Thread number Thread - 32:  : Request latency: 1.0948 s 
+Thread number Thread - 43:  : Request latency: 1.3979 s 
+Thread number Thread - 48:  : Request latency: 1.3984 s 
+Thread number Thread - 44:  : Request latency: 1.3973 s 
+Thread number Thread - 96:  : Request latency: 1.2751 s 
+Thread number Thread - 92:  : Request latency: 1.2745 s 
+Thread number Thread - 95:  : Request latency: 1.2749 s 
+Thread number Thread - 94:  : Request latency: 1.2747 s 
+Thread number Thread - 93:  : Request latency: 1.2767 s 
+Thread number Thread - 54:  : Request latency: 1.2827 s 
+Thread number Thread - 49:  : Request latency: 1.4163 s 
+Thread number Thread - 59:  : Request latency: 1.0946 s 
+Thread number Thread - 51:  : Request latency: 1.4228 s 
+Thread number Thread - 58:  : Request latency: 1.1016 s 
+Thread number Thread - 62:  : Request latency: 1.1078 s 
+Thread number Thread - 56:  : Request latency: 1.1001 s 
+Thread number Thread - 46:  : Request latency: 1.4206 s 
+Thread number Thread - 65:  : Request latency: 1.1096 s 
+Thread number Thread - 57:  : Request latency: 1.1062 s 
+Thread number Thread - 60:  : Request latency: 1.1079 s 
+Thread number Thread - 67:  : Request latency: 1.0950 s 
+Thread number Thread - 73:  : Request latency: 1.0936 s 
+Thread number Thread - 71:  : Request latency: 1.0940 s 
+Thread number Thread - 61:  : Request latency: 1.1107 s 
+Thread number Thread - 55:  : Request latency: 1.2987 s 
+Thread number Thread - 63:  : Request latency: 1.1150 s 
+Thread number Thread - 45:  : Request latency: 1.4321 s 
+Thread number Thread - 97:  : Request latency: 1.3031 s 
+Thread number Thread - 89:  : Request latency: 1.4314 s 
+Thread number Thread - 85:  : Request latency: 1.4320 s 
+Thread number Thread - 64:  : Request latency: 1.1162 s 
+Thread number Thread - 86:  : Request latency: 1.4339 s 
+Thread number Thread - 69:  : Request latency: 1.1068 s 
+Thread number Thread - 82:  : Request latency: 1.4354 s 
+Thread number Thread - 90:  : Request latency: 1.4339 s 
+Thread number Thread - 70:  : Request latency: 1.1075 s 
+Thread number Thread - 74:  : Request latency: 1.1031 s 
+Thread number Thread - 72:  : Request latency: 1.1041 s 
+Thread number Thread - 68:  : Request latency: 1.1107 s 
+Thread number Thread - 75:  : Request latency: 1.1011 s 
+Thread number Thread - 76:  : Request latency: 1.1030 s 
+Thread number Thread - 66:  : Request latency: 1.1267 s 
+Thread number Thread - 50:  : Request latency: 1.4369 s 
+Thread number Thread - 78:  : Request latency: 1.4403 s 
+Thread number Thread - 83:  : Request latency: 1.4398 s 
+Thread number Thread - 41:  : Request latency: 1.4370 s 
+Thread number Thread - 40:  : Request latency: 1.4368 s 
+Thread number Thread - 88:  : Request latency: 1.4372 s 
+Thread number Thread - 39:  : Request latency: 1.4380 s 
+Thread number Thread - 87:  : Request latency: 1.4387 s 
+Thread number Thread - 77:  : Request latency: 1.4349 s 
+Thread number Thread - 81:  : Request latency: 1.4373 s 
+Thread number Thread - 38:  : Request latency: 1.4383 s 
+Thread number Thread - 91:  : Request latency: 1.4369 s 
+Thread number Thread - 98:  : Request latency: 1.3052 s 
+Thread number Thread - 99:  : Request latency: 1.3052 s 
+Thread number Thread - 1:  : Request latency: 0.0386 s 
+Thread number Thread - 2:  : Request latency: 0.0386 s 
+Thread number Thread - 4:  : Request latency: 0.0342 s 
+Thread number Thread - 3:  : Request latency: 0.0346 s 
+Thread number Thread - 6:  : Request latency: 0.0256 s 
+Thread number Thread - 5:  : Request latency: 0.0443 s 
+Thread number Thread - 7:  : Request latency: 0.0367 s 
+Thread number Thread - 9:  : Request latency: 0.0697 s 
+Thread number Thread - 8:  : Request latency: 0.3228 s 
+Thread number Thread - 24:  : Request latency: 0.3221 s 
+Thread number Thread - 23:  : Request latency: 0.3223 s 
+Thread number Thread - 17:  : Request latency: 0.3079 s 
+Thread number Thread - 19:  : Request latency: 0.3082 s 
+Thread number Thread - 25:  : Request latency: 0.3086 s 
+Thread number Thread - 22:  : Request latency: 0.3093 s 
+Thread number Thread - 14:  : Request latency: 0.3089 s 
+Thread number Thread - 16:  : Request latency: 0.3100 s 
+Thread number Thread - 12:  : Request latency: 0.3097 s 
+Thread number Thread - 13:  : Request latency: 0.3170 s 
+Thread number Thread - 10:  : Request latency: 0.3169 s 
+Thread number Thread - 26:  : Request latency: 0.3187 s 
+Thread number Thread - 18:  : Request latency: 0.3192 s 
+Thread number Thread - 21:  : Request latency: 0.3195 s 
+Thread number Thread - 11:  : Request latency: 0.3189 s 
+Thread number Thread - 20:  : Request latency: 0.3356 s 
+Thread number Thread - 15:  : Request latency: 0.3216 s 
+Thread number Thread - 30:  : Request latency: 0.0260 s 
+Thread number Thread - 34:  : Request latency: 0.2823 s 
+Thread number Thread - 36:  : Request latency: 0.2859 s 
+Thread number Thread - 80:  : Request latency: 0.2860 s 
+Thread number Thread - 35:  : Request latency: 0.2855 s 
+Thread number Thread - 52:  : Request latency: 0.2862 s 
+Thread number Thread - 79:  : Request latency: 0.2858 s 
+Thread number Thread - 33:  : Request latency: 0.2829 s 
+Thread number Thread - 84:  : Request latency: 0.2879 s 
+Thread number Thread - 27:  : Request latency: 0.2836 s 
+Thread number Thread - 29:  : Request latency: 0.2893 s 
+Thread number Thread - 28:  : Request latency: 0.2866 s 
+Thread number Thread - 53:  : Request latency: 0.2852 s 
+Thread number Thread - 42:  : Request latency: 0.2856 s 
+Thread number Thread - 47:  : Request latency: 0.2897 s 
+Thread number Thread - 37:  : Request latency: 0.2903 s 
+Thread number Thread - 31:  : Request latency: 0.2866 s 
+Thread number Thread - 32:  : Request latency: 0.2842 s 
+Thread number Thread - 48:  : Request latency: 0.0233 s 
+Thread number Thread - 44:  : Request latency: 0.1889 s 
+Thread number Thread - 43:  : Request latency: 0.3440 s 
+Thread number Thread - 95:  : Request latency: 0.3335 s 
+Thread number Thread - 59:  : Request latency: 0.3257 s 
+Thread number Thread - 96:  : Request latency: 0.3334 s 
+Thread number Thread - 93:  : Request latency: 0.3360 s 
+Thread number Thread - 92:  : Request latency: 0.3378 s 
+Thread number Thread - 54:  : Request latency: 0.3344 s 
+Thread number Thread - 94:  : Request latency: 0.3375 s 
+Thread number Thread - 49:  : Request latency: 0.3305 s 
+Thread number Thread - 51:  : Request latency: 0.7786 s 
+Thread number Thread - 65:  : Request latency: 0.7760 s 
+Thread number Thread - 60:  : Request latency: 0.7756 s 
+Thread number Thread - 58:  : Request latency: 0.7767 s 
+Thread number Thread - 67:  : Request latency: 0.7765 s 
+Thread number Thread - 62:  : Request latency: 0.7795 s 
+Thread number Thread - 57:  : Request latency: 0.7778 s 
+Thread number Thread - 56:  : Request latency: 0.7802 s 
+Thread number Thread - 46:  : Request latency: 0.7805 s 
+Thread number Thread - 61:  : Request latency: 0.8707 s 
+Thread number Thread - 71:  : Request latency: 0.8714 s 
+Thread number Thread - 73:  : Request latency: 0.8709 s 
+Thread number Thread - 55:  : Request latency: 0.8710 s 
+Thread number Thread - 63:  : Request latency: 0.8702 s 
+Thread number Thread - 97:  : Request latency: 0.8709 s 
+Thread number Thread - 45:  : Request latency: 0.8706 s 
+Thread number Thread - 64:  : Request latency: 0.8715 s 
+Thread number Thread - 89:  : Request latency: 0.8714 s 
+Thread number Thread - 86:  : Request latency: 0.8721 s 
+Thread number Thread - 74:  : Request latency: 0.8670 s 
+Thread number Thread - 70:  : Request latency: 0.8675 s 
+Thread number Thread - 68:  : Request latency: 0.8682 s 
+Thread number Thread - 76:  : Request latency: 0.8687 s 
+Thread number Thread - 66:  : Request latency: 0.8690 s 
+Thread number Thread - 50:  : Request latency: 0.8718 s 
+Thread number Thread - 83:  : Request latency: 0.8731 s 
+Thread number Thread - 41:  : Request latency: 0.8741 s 
+Thread number Thread - 88:  : Request latency: 0.8747 s 
+Thread number Thread - 40:  : Request latency: 0.8743 s 
+Thread number Thread - 39:  : Request latency: 0.8749 s 
+Thread number Thread - 78:  : Request latency: 0.8741 s 
+Thread number Thread - 87:  : Request latency: 0.8753 s 
+Thread number Thread - 77:  : Request latency: 0.8754 s 
+Thread number Thread - 81:  : Request latency: 0.8756 s 
+Thread number Thread - 38:  : Request latency: 0.8759 s 
+Thread number Thread - 75:  : Request latency: 0.8846 s 
+Thread number Thread - 91:  : Request latency: 0.8792 s 
+Thread number Thread - 69:  : Request latency: 0.8904 s 
+Thread number Thread - 85:  : Request latency: 0.8926 s 
+Thread number Thread - 90:  : Request latency: 0.8918 s 
+Thread number Thread - 72:  : Request latency: 0.8880 s 
+Thread number Thread - 82:  : Request latency: 0.8943 s 
+Thread number Thread - 98:  : Request latency: 0.8842 s 
+Thread number Thread - 99:  : Request latency: 0.8843 s 
+Thread number Thread - 2:  : Request latency: 0.0340 s 
+Thread number Thread - 1:  : Request latency: 0.0334 s 
+Thread number Thread - 3:  : Request latency: 0.0360 s 
+Thread number Thread - 4:  : Request latency: 0.0373 s 
+Thread number Thread - 6:  : Request latency: 0.0244 s 
+Thread number Thread - 5:  : Request latency: 0.0196 s 
+Thread number Thread - 7:  : Request latency: 0.0207 s 
+Thread number Thread - 9:  : Request latency: 0.0213 s 
+Thread number Thread - 8:  : Request latency: 0.0819 s 
+Thread number Thread - 23:  : Request latency: 0.0806 s 
+Thread number Thread - 24:  : Request latency: 0.0820 s 
+Thread number Thread - 17:  : Request latency: 0.0819 s 
+Thread number Thread - 19:  : Request latency: 0.0824 s 
+Thread number Thread - 25:  : Request latency: 0.2974 s 
+Thread number Thread - 22:  : Request latency: 0.2964 s 
+Thread number Thread - 16:  : Request latency: 0.2963 s 
+Thread number Thread - 12:  : Request latency: 0.2947 s 
+Thread number Thread - 14:  : Request latency: 0.2990 s 
+Thread number Thread - 26:  : Request latency: 0.2888 s 
+Thread number Thread - 18:  : Request latency: 0.2892 s 
+Thread number Thread - 11:  : Request latency: 0.2907 s 
+Thread number Thread - 20:  : Request latency: 0.2898 s 
+Thread number Thread - 15:  : Request latency: 0.2910 s 
+Thread number Thread - 21:  : Request latency: 0.2920 s 
+Thread number Thread - 10:  : Request latency: 0.2954 s 
+Thread number Thread - 13:  : Request latency: 0.2952 s 
+Thread number Thread - 30:  : Request latency: 0.0263 s 
+Thread number Thread - 34:  : Request latency: 0.0220 s 
+Thread number Thread - 80:  : Request latency: 0.2649 s 
+Thread number Thread - 36:  : Request latency: 0.2644 s 
+Thread number Thread - 35:  : Request latency: 0.2654 s 
+Thread number Thread - 52:  : Request latency: 0.2659 s 
+Thread number Thread - 79:  : Request latency: 0.2662 s 
+Thread number Thread - 37:  : Request latency: 0.2623 s 
+Thread number Thread - 47:  : Request latency: 0.2619 s 
+Thread number Thread - 29:  : Request latency: 0.2719 s 
+Thread number Thread - 84:  : Request latency: 0.2726 s 
+Thread number Thread - 28:  : Request latency: 0.2715 s 
+Thread number Thread - 27:  : Request latency: 0.2723 s 
+Thread number Thread - 33:  : Request latency: 0.2741 s 
+Thread number Thread - 53:  : Request latency: 0.2713 s 
+Thread number Thread - 42:  : Request latency: 0.2710 s 
+Thread number Thread - 31:  : Request latency: 0.2698 s 
+Thread number Thread - 32:  : Request latency: 0.2697 s 
+Thread number Thread - 44:  : Request latency: 0.0547 s 
+Thread number Thread - 48:  : Request latency: 0.2191 s 
+Thread number Thread - 43:  : Request latency: 0.0632 s 
+Thread number Thread - 95:  : Request latency: 0.0622 s 
+Thread number Thread - 59:  : Request latency: 0.0976 s 
+Thread number Thread - 96:  : Request latency: 0.0979 s 
+Thread number Thread - 94:  : Request latency: 0.1421 s 
+Thread number Thread - 92:  : Request latency: 0.1419 s 
+Thread number Thread - 93:  : Request latency: 0.1456 s 
+Thread number Thread - 54:  : Request latency: 0.1428 s 
+Thread number Thread - 49:  : Request latency: 0.1431 s 
+Thread number Thread - 65:  : Request latency: 0.0330 s 
+Thread number Thread - 62:  : Request latency: 0.1399 s 
+Thread number Thread - 57:  : Request latency: 0.1410 s 
+Thread number Thread - 56:  : Request latency: 0.1388 s 
+Thread number Thread - 60:  : Request latency: 0.1417 s 
+Thread number Thread - 67:  : Request latency: 0.1428 s 
+Thread number Thread - 46:  : Request latency: 0.1399 s 
+Thread number Thread - 58:  : Request latency: 0.1445 s 
+Thread number Thread - 51:  : Request latency: 0.1441 s 
+Thread number Thread - 73:  : Request latency: 0.5944 s 
+Thread number Thread - 61:  : Request latency: 0.5947 s 
+Thread number Thread - 71:  : Request latency: 0.5942 s 
+Thread number Thread - 55:  : Request latency: 0.5951 s 
+Thread number Thread - 63:  : Request latency: 0.5953 s 
+Thread number Thread - 64:  : Request latency: 0.5930 s 
+Thread number Thread - 45:  : Request latency: 0.5932 s 
+Thread number Thread - 86:  : Request latency: 0.6154 s 
+Thread number Thread - 66:  : Request latency: 0.6088 s 
+Thread number Thread - 50:  : Request latency: 0.6106 s 
+Thread number Thread - 90:  : Request latency: 0.5935 s 
+Thread number Thread - 39:  : Request latency: 0.6062 s 
+Thread number Thread - 74:  : Request latency: 0.6160 s 
+Thread number Thread - 88:  : Request latency: 0.6136 s 
+Thread number Thread - 70:  : Request latency: 0.6201 s 
+Thread number Thread - 40:  : Request latency: 0.6135 s 
+Thread number Thread - 77:  : Request latency: 0.6092 s 
+Thread number Thread - 68:  : Request latency: 0.6213 s 
+Thread number Thread - 72:  : Request latency: 0.6039 s 
+Thread number Thread - 75:  : Request latency: 0.6076 s 
+Thread number Thread - 41:  : Request latency: 0.6142 s 
+Thread number Thread - 89:  : Request latency: 0.6253 s 
+Thread number Thread - 82:  : Request latency: 0.6065 s 
+Thread number Thread - 97:  : Request latency: 0.6330 s 
+Thread number Thread - 78:  : Request latency: 0.6161 s 
+Thread number Thread - 38:  : Request latency: 0.6123 s 
+Thread number Thread - 87:  : Request latency: 0.6136 s 
+Thread number Thread - 83:  : Request latency: 0.6177 s 
+Thread number Thread - 76:  : Request latency: 0.6230 s 
+Thread number Thread - 81:  : Request latency: 0.6133 s 
+Thread number Thread - 69:  : Request latency: 0.6085 s 
+Thread number Thread - 98:  : Request latency: 0.6071 s 
+Thread number Thread - 91:  : Request latency: 0.6093 s 
+Thread number Thread - 85:  : Request latency: 0.6088 s 
+Thread number Thread - 99:  : Request latency: 0.6058 s 
+Thread number Thread - 2:  : Request latency: 0.0199 s 
+Thread number Thread - 1:  : Request latency: 0.0356 s 
+Thread number Thread - 3:  : Request latency: 0.0274 s 
+Thread number Thread - 4:  : Request latency: 0.0438 s 
+Thread number Thread - 6:  : Request latency: 0.0191 s 
+Thread number Thread - 5:  : Request latency: 0.0173 s 
+Thread number Thread - 7:  : Request latency: 0.0240 s 
+Thread number Thread - 9:  : Request latency: 0.0228 s 
+Thread number Thread - 8:  : Request latency: 0.0353 s 
+Thread number Thread - 23:  : Request latency: 0.0535 s 
+Thread number Thread - 17:  : Request latency: 0.0805 s 
+Thread number Thread - 24:  : Request latency: 0.0853 s 
+Thread number Thread - 19:  : Request latency: 0.0813 s 
+Thread number Thread - 12:  : Request latency: 0.1253 s 
+Thread number Thread - 22:  : Request latency: 0.1261 s 
+Thread number Thread - 25:  : Request latency: 0.2092 s 
+Thread number Thread - 14:  : Request latency: 0.2096 s 
+Thread number Thread - 26:  : Request latency: 0.2099 s 
+Thread number Thread - 16:  : Request latency: 0.2110 s 
+Thread number Thread - 18:  : Request latency: 0.2135 s 
+Thread number Thread - 20:  : Request latency: 0.2355 s 
+Thread number Thread - 11:  : Request latency: 0.2363 s 
+Thread number Thread - 13:  : Request latency: 0.2312 s 
+Thread number Thread - 15:  : Request latency: 0.2363 s 
+Thread number Thread - 21:  : Request latency: 0.2348 s 
+Thread number Thread - 10:  : Request latency: 0.2346 s 
+Thread number Thread - 30:  : Request latency: 0.0190 s 
+Thread number Thread - 34:  : Request latency: 0.0224 s 
+Thread number Thread - 80:  : Request latency: 0.0545 s 
+Thread number Thread - 36:  : Request latency: 0.0904 s 
+Thread number Thread - 35:  : Request latency: 0.0896 s 
+Thread number Thread - 52:  : Request latency: 0.2999 s 
+Thread number Thread - 79:  : Request latency: 0.3012 s 
+Thread number Thread - 47:  : Request latency: 0.3003 s 
+Thread number Thread - 37:  : Request latency: 0.3016 s 
+Thread number Thread - 84:  : Request latency: 0.2951 s 
+Thread number Thread - 29:  : Request latency: 0.2958 s 
+Thread number Thread - 27:  : Request latency: 0.2994 s 
+Thread number Thread - 28:  : Request latency: 0.2989 s 
+Thread number Thread - 53:  : Request latency: 0.2999 s 
+Thread number Thread - 31:  : Request latency: 0.3087 s 
+Thread number Thread - 42:  : Request latency: 0.3086 s 
+Thread number Thread - 33:  : Request latency: 0.3090 s 
+Thread number Thread - 32:  : Request latency: 0.3086 s 
+Thread number Thread - 44:  : Request latency: 0.2714 s 
+Thread number Thread - 48:  : Request latency: 0.2705 s 
+Thread number Thread - 96:  : Request latency: 0.2087 s 
+Thread number Thread - 93:  : Request latency: 0.1601 s 
+Thread number Thread - 43:  : Request latency: 0.2442 s 
+Thread number Thread - 92:  : Request latency: 0.1610 s 
+Thread number Thread - 59:  : Request latency: 0.2117 s 
+Thread number Thread - 95:  : Request latency: 0.2471 s 
+Thread number Thread - 54:  : Request latency: 0.1582 s 
+Thread number Thread - 94:  : Request latency: 0.1651 s 
+Thread number Thread - 49:  : Request latency: 0.1572 s 
+Thread number Thread - 65:  : Request latency: 0.0193 s 
+Thread number Thread - 62:  : Request latency: 0.0202 s 
+Thread number Thread - 57:  : Request latency: 0.1276 s 
+Thread number Thread - 56:  : Request latency: 0.1279 s 
+Thread number Thread - 67:  : Request latency: 0.1288 s 
+Thread number Thread - 46:  : Request latency: 0.1279 s 
+Thread number Thread - 58:  : Request latency: 0.1273 s 
+Thread number Thread - 60:  : Request latency: 0.1281 s 
+Thread number Thread - 51:  : Request latency: 0.1275 s 
+Thread number Thread - 73:  : Request latency: 0.0341 s 
+Thread number Thread - 71:  : Request latency: 0.0353 s 
+Thread number Thread - 55:  : Request latency: 0.3037 s 
+Thread number Thread - 61:  : Request latency: 0.3037 s 
+Thread number Thread - 63:  : Request latency: 0.5305 s 
+Thread number Thread - 70:  : Request latency: 0.5003 s 
+Thread number Thread - 77:  : Request latency: 0.5003 s 
+Thread number Thread - 66:  : Request latency: 0.5079 s 
+Thread number Thread - 68:  : Request latency: 0.5016 s 
+Thread number Thread - 64:  : Request latency: 0.5328 s 
+Thread number Thread - 74:  : Request latency: 0.5080 s 
+Thread number Thread - 50:  : Request latency: 0.5126 s 
+Thread number Thread - 88:  : Request latency: 0.5044 s 
+Thread number Thread - 40:  : Request latency: 0.5055 s 
+Thread number Thread - 39:  : Request latency: 0.5115 s 
+Thread number Thread - 86:  : Request latency: 0.5146 s 
+Thread number Thread - 90:  : Request latency: 0.5151 s 
+Thread number Thread - 45:  : Request latency: 0.5368 s 
+Thread number Thread - 72:  : Request latency: 0.5475 s 
+Thread number Thread - 97:  : Request latency: 0.5476 s 
+Thread number Thread - 41:  : Request latency: 0.5477 s 
+Thread number Thread - 98:  : Request latency: 0.5464 s 
+Thread number Thread - 82:  : Request latency: 0.5452 s 
+Thread number Thread - 78:  : Request latency: 0.5572 s 
+Thread number Thread - 81:  : Request latency: 0.5549 s 
+Thread number Thread - 75:  : Request latency: 0.5603 s 
+Thread number Thread - 83:  : Request latency: 0.5556 s 
+Thread number Thread - 38:  : Request latency: 0.5563 s 
+Thread number Thread - 76:  : Request latency: 0.5558 s 
+Thread number Thread - 85:  : Request latency: 0.5547 s 
+Thread number Thread - 87:  : Request latency: 0.5563 s 
+Thread number Thread - 89:  : Request latency: 0.5603 s 
+Thread number Thread - 91:  : Request latency: 0.5552 s 
+Thread number Thread - 99:  : Request latency: 0.5554 s 
+Thread number Thread - 69:  : Request latency: 0.5572 s 
+Thread number Thread - 2:  : Request latency: 0.0239 s 
+Thread number Thread - 1:  : Request latency: 0.0243 s 
+Thread number Thread - 3:  : Request latency: 0.0227 s 
+Thread number Thread - 4:  : Request latency: 0.0219 s 
+Thread number Thread - 6:  : Request latency: 0.0231 s 
+Thread number Thread - 5:  : Request latency: 0.0248 s 
+Thread number Thread - 7:  : Request latency: 0.0138 s 
+Thread number Thread - 9:  : Request latency: 0.0210 s 
+Thread number Thread - 8:  : Request latency: 0.0231 s 
+Thread number Thread - 23:  : Request latency: 0.0202 s 
+Thread number Thread - 17:  : Request latency: 0.0177 s 
+Thread number Thread - 19:  : Request latency: 0.0513 s 
+Thread number Thread - 24:  : Request latency: 0.0521 s 
+Thread number Thread - 12:  : Request latency: 0.0342 s 
+Thread number Thread - 22:  : Request latency: 0.0348 s 
+Thread number Thread - 25:  : Request latency: 0.0207 s 
+Thread number Thread - 14:  : Request latency: 0.0849 s 
+Thread number Thread - 26:  : Request latency: 0.0816 s 
+Thread number Thread - 16:  : Request latency: 0.0818 s 
+Thread number Thread - 18:  : Request latency: 0.0820 s 
+Thread number Thread - 15:  : Request latency: 0.1594 s 
+Thread number Thread - 20:  : Request latency: 0.1613 s 
+Thread number Thread - 11:  : Request latency: 0.1623 s 
+Thread number Thread - 13:  : Request latency: 0.1627 s 
+Thread number Thread - 21:  : Request latency: 0.1789 s 
+Thread number Thread - 10:  : Request latency: 0.1792 s 
+Thread number Thread - 30:  : Request latency: 0.1112 s 
+Thread number Thread - 34:  : Request latency: 0.0196 s 
+Thread number Thread - 80:  : Request latency: 0.0168 s 
+Thread number Thread - 36:  : Request latency: 0.0372 s 
+Thread number Thread - 35:  : Request latency: 0.0379 s 
+Thread number Thread - 52:  : Request latency: 0.0203 s 
+Thread number Thread - 79:  : Request latency: 0.2032 s 
+Thread number Thread - 37:  : Request latency: 0.2036 s 
+Thread number Thread - 47:  : Request latency: 0.2041 s 
+Thread number Thread - 84:  : Request latency: 0.2026 s 
+Thread number Thread - 29:  : Request latency: 0.2031 s 
+Thread number Thread - 27:  : Request latency: 0.2004 s 
+Thread number Thread - 28:  : Request latency: 0.2007 s 
+Thread number Thread - 53:  : Request latency: 0.2012 s 
+Thread number Thread - 33:  : Request latency: 0.1943 s 
+Thread number Thread - 42:  : Request latency: 0.1949 s 
+Thread number Thread - 32:  : Request latency: 0.1950 s 
+Thread number Thread - 31:  : Request latency: 0.1962 s 
+Thread number Thread - 96:  : Request latency: 0.2344 s 
+Thread number Thread - 44:  : Request latency: 0.3685 s 
+Thread number Thread - 48:  : Request latency: 0.3689 s 
+Thread number Thread - 95:  : Request latency: 0.2308 s 
+Thread number Thread - 93:  : Request latency: 0.2353 s 
+Thread number Thread - 49:  : Request latency: 0.2326 s 
+Thread number Thread - 59:  : Request latency: 0.2362 s 
+Thread number Thread - 94:  : Request latency: 0.2370 s 
+Thread number Thread - 92:  : Request latency: 0.2401 s 
+Thread number Thread - 54:  : Request latency: 0.2370 s 
+Thread number Thread - 43:  : Request latency: 0.2415 s 
+Thread number Thread - 65:  : Request latency: 0.0465 s 
+Thread number Thread - 62:  : Request latency: 0.0215 s 
+Thread number Thread - 56:  : Request latency: 0.0413 s 
+Thread number Thread - 57:  : Request latency: 0.0428 s 
+Thread number Thread - 46:  : Request latency: 0.1258 s 
+Thread number Thread - 67:  : Request latency: 0.1255 s 
+Thread number Thread - 51:  : Request latency: 0.1277 s 
+Thread number Thread - 58:  : Request latency: 0.1278 s 
+Thread number Thread - 60:  : Request latency: 0.1285 s 
+Thread number Thread - 73:  : Request latency: 0.0206 s 
+Thread number Thread - 71:  : Request latency: 0.0355 s 
+Thread number Thread - 61:  : Request latency: 0.0334 s 
+Thread number Thread - 55:  : Request latency: 0.0350 s 
+Thread number Thread - 63:  : Request latency: 0.0623 s 
+Thread number Thread - 77:  : Request latency: 0.0644 s 
+Thread number Thread - 70:  : Request latency: 0.0985 s 
+Thread number Thread - 66:  : Request latency: 0.0996 s 
+Thread number Thread - 64:  : Request latency: 0.3016 s 
+Thread number Thread - 68:  : Request latency: 0.3015 s 
+Thread number Thread - 41:  : Request latency: 0.4483 s 
+Thread number Thread - 97:  : Request latency: 0.4508 s 
+Thread number Thread - 76:  : Request latency: 0.4407 s 
+Thread number Thread - 85:  : Request latency: 0.4472 s 
+Thread number Thread - 75:  : Request latency: 0.4519 s 
+Thread number Thread - 98:  : Request latency: 0.4611 s 
+Thread number Thread - 50:  : Request latency: 0.5127 s 
+Thread number Thread - 74:  : Request latency: 0.5126 s 
+Thread number Thread - 91:  : Request latency: 0.4504 s 
+Thread number Thread - 82:  : Request latency: 0.4635 s 
+Thread number Thread - 87:  : Request latency: 0.4535 s 
+Thread number Thread - 83:  : Request latency: 0.4542 s 
+Thread number Thread - 81:  : Request latency: 0.4554 s 
+Thread number Thread - 39:  : Request latency: 0.5137 s 
+Thread number Thread - 88:  : Request latency: 0.5171 s 
+Thread number Thread - 78:  : Request latency: 0.4569 s 
+Thread number Thread - 69:  : Request latency: 0.4513 s 
+Thread number Thread - 38:  : Request latency: 0.4564 s 
+Thread number Thread - 90:  : Request latency: 0.5146 s 
+Thread number Thread - 99:  : Request latency: 0.4571 s 
+Thread number Thread - 86:  : Request latency: 0.5158 s 
+Thread number Thread - 89:  : Request latency: 0.4565 s 
+Thread number Thread - 45:  : Request latency: 0.5159 s 
+Thread number Thread - 72:  : Request latency: 0.4725 s 
+Thread number Thread - 40:  : Request latency: 0.5186 s 
+Thread number Thread - 2:  : Request latency: 0.0911 s 
+Thread number Thread - 1:  : Request latency: 0.0748 s 
+Thread number Thread - 3:  : Request latency: 0.0215 s 
+Thread number Thread - 4:  : Request latency: 0.0258 s 
+Thread number Thread - 6:  : Request latency: 0.0215 s 
+Thread number Thread - 5:  : Request latency: 0.0212 s 
+Thread number Thread - 7:  : Request latency: 0.0198 s 
+Thread number Thread - 9:  : Request latency: 0.0211 s 
+Thread number Thread - 8:  : Request latency: 0.0247 s 
+Thread number Thread - 23:  : Request latency: 0.0251 s 
+Thread number Thread - 17:  : Request latency: 0.0167 s 
+Thread number Thread - 19:  : Request latency: 0.0209 s 
+Thread number Thread - 24:  : Request latency: 0.0391 s 
+Thread number Thread - 12:  : Request latency: 0.0218 s 
+Thread number Thread - 22:  : Request latency: 0.0367 s 
+Thread number Thread - 25:  : Request latency: 0.0210 s 
+Thread number Thread - 14:  : Request latency: 0.0200 s 
+Thread number Thread - 26:  : Request latency: 0.0658 s 
+Thread number Thread - 16:  : Request latency: 0.0662 s 
+Thread number Thread - 18:  : Request latency: 0.0660 s 
+Thread number Thread - 15:  : Request latency: 0.0356 s 
+Thread number Thread - 20:  : Request latency: 0.0360 s 
+Thread number Thread - 11:  : Request latency: 0.1114 s 
+Thread number Thread - 21:  : Request latency: 0.0985 s 
+Thread number Thread - 10:  : Request latency: 0.0985 s 
+Thread number Thread - 13:  : Request latency: 0.1128 s 
+Thread number Thread - 30:  : Request latency: 0.0981 s 
+Thread number Thread - 34:  : Request latency: 0.0240 s 
+Thread number Thread - 80:  : Request latency: 0.0181 s 
+Thread number Thread - 36:  : Request latency: 0.0159 s 
+Thread number Thread - 35:  : Request latency: 0.0282 s 
+Thread number Thread - 52:  : Request latency: 0.0208 s 
+Thread number Thread - 79:  : Request latency: 0.0189 s 
+Thread number Thread - 37:  : Request latency: 0.1878 s 
+Thread number Thread - 47:  : Request latency: 0.1870 s 
+Thread number Thread - 29:  : Request latency: 0.1897 s 
+Thread number Thread - 28:  : Request latency: 0.1874 s 
+Thread number Thread - 84:  : Request latency: 0.1920 s 
+Thread number Thread - 53:  : Request latency: 0.1895 s 
+Thread number Thread - 27:  : Request latency: 0.1954 s 
+Thread number Thread - 33:  : Request latency: 0.1931 s 
+Thread number Thread - 42:  : Request latency: 0.1930 s 
+Thread number Thread - 32:  : Request latency: 0.1926 s 
+Thread number Thread - 31:  : Request latency: 0.1919 s 
+Thread number Thread - 95:  : Request latency: 0.1230 s 
+Thread number Thread - 93:  : Request latency: 0.1241 s 
+Thread number Thread - 96:  : Request latency: 0.1296 s 
+Thread number Thread - 49:  : Request latency: 0.1243 s 
+Thread number Thread - 44:  : Request latency: 0.1295 s 
+Thread number Thread - 48:  : Request latency: 0.1294 s 
+Thread number Thread - 94:  : Request latency: 0.2298 s 
+Thread number Thread - 59:  : Request latency: 0.2313 s 
+Thread number Thread - 54:  : Request latency: 0.2321 s 
+Thread number Thread - 92:  : Request latency: 0.2310 s 
+Thread number Thread - 43:  : Request latency: 0.2273 s 
+Thread number Thread - 65:  : Request latency: 0.2215 s 
+Thread number Thread - 62:  : Request latency: 0.1408 s 
+Thread number Thread - 56:  : Request latency: 0.0457 s 
+Thread number Thread - 57:  : Request latency: 0.0458 s 
+Thread number Thread - 46:  : Request latency: 0.0321 s 
+Thread number Thread - 67:  : Request latency: 0.0496 s 
+Thread number Thread - 51:  : Request latency: 0.0890 s 
+Thread number Thread - 58:  : Request latency: 0.0880 s 
+Thread number Thread - 60:  : Request latency: 0.0852 s 
+Thread number Thread - 73:  : Request latency: 0.0271 s 
+Thread number Thread - 71:  : Request latency: 0.0287 s 
+Thread number Thread - 61:  : Request latency: 0.0340 s 
+Thread number Thread - 55:  : Request latency: 0.0346 s 
+Thread number Thread - 63:  : Request latency: 0.0150 s 
+Thread number Thread - 77:  : Request latency: 0.0296 s 
+Thread number Thread - 70:  : Request latency: 0.0196 s 
+Thread number Thread - 66:  : Request latency: 0.0310 s 
+Thread number Thread - 64:  : Request latency: 0.0243 s 
+Thread number Thread - 68:  : Request latency: 0.0405 s 
+Thread number Thread - 41:  : Request latency: 0.0312 s 
+Thread number Thread - 97:  : Request latency: 0.0351 s 
+Thread number Thread - 76:  : Request latency: 0.3934 s 
+Thread number Thread - 85:  : Request latency: 0.3906 s 
+Thread number Thread - 98:  : Request latency: 0.4211 s 
+Thread number Thread - 86:  : Request latency: 0.4209 s 
+Thread number Thread - 82:  : Request latency: 0.4307 s 
+Thread number Thread - 89:  : Request latency: 0.4228 s 
+Thread number Thread - 83:  : Request latency: 0.4296 s 
+Thread number Thread - 78:  : Request latency: 0.4277 s 
+Thread number Thread - 81:  : Request latency: 0.4294 s 
+Thread number Thread - 40:  : Request latency: 0.4214 s 
+Thread number Thread - 90:  : Request latency: 0.4283 s 
+Thread number Thread - 38:  : Request latency: 0.4294 s 
+Thread number Thread - 45:  : Request latency: 0.4251 s 
+Thread number Thread - 72:  : Request latency: 0.4239 s 
+Thread number Thread - 39:  : Request latency: 0.4314 s 
+Thread number Thread - 87:  : Request latency: 0.4372 s 
+Thread number Thread - 75:  : Request latency: 0.4391 s 
+Thread number Thread - 88:  : Request latency: 0.4345 s 
+Thread number Thread - 74:  : Request latency: 0.4388 s 
+Thread number Thread - 91:  : Request latency: 0.4386 s 
+Thread number Thread - 50:  : Request latency: 0.4392 s 
+Thread number Thread - 69:  : Request latency: 0.4345 s 
+Thread number Thread - 99:  : Request latency: 0.4338 s 
+Thread number Thread - 1:  : Request latency: 0.4335 s 
+Thread number Thread - 2:  : Request latency: 0.4362 s 
+Thread number Thread - 3:  : Request latency: 0.1260 s 
+Thread number Thread - 4:  : Request latency: 0.1112 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 64: : 0.5365
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 68: : 0.5365
+Thread number Thread - 6:  : Request latency: 0.0178 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 41: : 0.5357
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 97: : 0.5357
+Thread number Thread - 5:  : Request latency: 0.0201 s 
+Thread number Thread - 7:  : Request latency: 0.0246 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 85: : 0.5342
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 76: : 0.5342
+Thread number Thread - 9:  : Request latency: 0.0217 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 98: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 86: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 82: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 83: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 89: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 78: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 90: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 81: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 40: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 45: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 39: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 38: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 72: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 88: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 87: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 74: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 75: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 91: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 50: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 69: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 99: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 2: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 1: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 3: : 0.5335
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 4: : 0.5335
+Thread number Thread - 8:  : Request latency: 0.0186 s 
+Thread number Thread - 23:  : Request latency: 0.0221 s 
+Thread number Thread - 17:  : Request latency: 0.0188 s 
+Thread number Thread - 19:  : Request latency: 0.0222 s 
+Thread number Thread - 24:  : Request latency: 0.0215 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 6: : 0.5299
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 5: : 0.5299
+Thread number Thread - 12:  : Request latency: 0.0221 s 
+Thread number Thread - 22:  : Request latency: 0.0197 s 
+Thread number Thread - 25:  : Request latency: 0.0187 s 
+Thread number Thread - 14:  : Request latency: 0.0194 s 
+Thread number Thread - 26:  : Request latency: 0.0401 s 
+Thread number Thread - 16:  : Request latency: 0.0569 s 
+Thread number Thread - 18:  : Request latency: 0.0568 s 
+Thread number Thread - 15:  : Request latency: 0.0217 s 
+Thread number Thread - 20:  : Request latency: 0.0387 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 7: : 0.5236
+Thread number Thread - 11:  : Request latency: 0.0245 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 9: : 0.5229
+Thread number Thread - 21:  : Request latency: 0.0840 s 
+Thread number Thread - 10:  : Request latency: 0.0842 s 
+Thread number Thread - 30:  : Request latency: 0.0834 s 
+Thread number Thread - 13:  : Request latency: 0.0844 s 
+Thread number Thread - 34:  : Request latency: 0.0188 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 8: : 0.5198
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 23: : 0.5198
+Thread number Thread - 80:  : Request latency: 0.0188 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 17: : 0.5191
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 19: : 0.5191
+Thread number Thread - 36:  : Request latency: 0.0191 s 
+Thread number Thread - 35:  : Request latency: 0.0176 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 24: : 0.5177
+Thread number Thread - 52:  : Request latency: 0.0191 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 12: : 0.5170
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 22: : 0.5170
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 25: : 0.5170
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 14: : 0.5170
+Thread number Thread - 79:  : Request latency: 0.0139 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 26: : 0.5163
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 16: : 0.5163
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 18: : 0.5163
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 15: : 0.5163
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 20: : 0.5163
+Thread number Thread - 37:  : Request latency: 0.0398 s 
+Thread number Thread - 47:  : Request latency: 0.0400 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 11: : 0.5150
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 10: : 0.5150
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 21: : 0.5150
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 30: : 0.5150
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 13: : 0.5150
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 34: : 0.5150
+Thread number Thread - 29:  : Request latency: 0.1742 s 
+Thread number Thread - 28:  : Request latency: 0.1742 s 
+Thread number Thread - 53:  : Request latency: 0.1743 s 
+Thread number Thread - 42:  : Request latency: 0.1766 s 
+Thread number Thread - 32:  : Request latency: 0.1771 s 
+Thread number Thread - 31:  : Request latency: 0.1757 s 
+Thread number Thread - 33:  : Request latency: 0.1781 s 
+Thread number Thread - 27:  : Request latency: 0.1783 s 
+Thread number Thread - 84:  : Request latency: 0.1826 s 
+Thread number Thread - 95:  : Request latency: 0.1692 s 
+Thread number Thread - 93:  : Request latency: 0.1687 s 
+Thread number Thread - 96:  : Request latency: 0.1695 s 
+Thread number Thread - 49:  : Request latency: 0.1700 s 
+Thread number Thread - 44:  : Request latency: 0.1739 s 
+Thread number Thread - 48:  : Request latency: 0.1743 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 80: : 0.5081
+Thread number Thread - 59:  : Request latency: 0.2200 s 
+Thread number Thread - 43:  : Request latency: 0.2168 s 
+Thread number Thread - 94:  : Request latency: 0.2201 s 
+Thread number Thread - 92:  : Request latency: 0.2209 s 
+Thread number Thread - 54:  : Request latency: 0.2204 s 
+Thread number Thread - 65:  : Request latency: 0.2194 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 36: : 0.5058
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 35: : 0.5058
+Thread number Thread - 56:  : Request latency: 0.2185 s 
+Thread number Thread - 62:  : Request latency: 0.2572 s 
+Thread number Thread - 57:  : Request latency: 0.2187 s 
+Thread number Thread - 67:  : Request latency: 0.1756 s 
+Thread number Thread - 46:  : Request latency: 0.1935 s 
+Thread number Thread - 51:  : Request latency: 0.1528 s 
+Thread number Thread - 60:  : Request latency: 0.1534 s 
+Thread number Thread - 58:  : Request latency: 0.1531 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 52: : 0.5025
+Thread number Thread - 73:  : Request latency: 0.0187 s 
+Thread number Thread - 71:  : Request latency: 0.0168 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 79: : 0.5012
+Thread number Thread - 61:  : Request latency: 0.0197 s 
+Thread number Thread - 55:  : Request latency: 0.0311 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 37: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 47: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 28: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 29: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 53: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 32: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 42: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 33: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 27: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 84: : 0.5000
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 31: : 0.5000
+Thread number Thread - 63:  : Request latency: 0.0137 s 
+Thread number Thread - 77:  : Request latency: 0.0182 s 
+Thread number Thread - 70:  : Request latency: 0.0203 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 95: : 0.4981
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 93: : 0.4981
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 96: : 0.4981
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 49: : 0.4981
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 44: : 0.4981
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 48: : 0.4981
+Thread number Thread - 66:  : Request latency: 0.0276 s 
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 94: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 43: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 59: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 92: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 54: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 65: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 56: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 62: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 57: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 46: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 67: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 51: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 60: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 58: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 73: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 71: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 61: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 55: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 63: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 77: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 70: : 0.4975
+AVERAGE TIME REQUEST FOR THREAD NUMBER Thread - 66: : 0.4975

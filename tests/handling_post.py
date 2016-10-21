@@ -10,6 +10,8 @@ from twisted.internet import reactor, endpoints
 from twisted.web.resource import Resource
 from twisted.web.server import Site
 
+from twisted.application import service
+
 # bit mask to check if memory in smartbox is empty
 f_key_empty_memory = 128
 # bit mask - smartbox saying that it is ready for configuration package
@@ -61,6 +63,7 @@ class SmartboxPage(Resource):
 		print "%r" % request.content.read()
 		request.write("cccccccccccccccc")
 
+	# @profile
 	def handling_samrtbox_data(self, request, data):
 
 		list_of_bytes = [ord(my_byte) for my_byte in data]
@@ -74,6 +77,7 @@ class SmartboxPage(Resource):
 		# TODO this will work only if one bit will be set in f_key byte
 		# first we must check sum control
 		# sum_of_bytes_to_calc_sum_control = sum(list_of_bytes[:-2])
+		#
 		checksum = CRCCCITT().calculate(data[:-2])
 		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
 		receive_sum_control = int(receive_sum_control_hex, 16)
@@ -85,13 +89,14 @@ class SmartboxPage(Resource):
 			return 0
 		list_of_all_smartboxes_id = []
 		smart_pins = {}
+		query_string = ''
 
 		# this will be done if smartbox work in normal mode
 		if f_key == f_key_output_state:
 			# count smartboxes which are included in package (-2 because last two bytes are bytes of sum controll)
 			count_smartboxes = (len(list_of_bytes) - 2) / 7
 			print "Stan wyjścia obecny"
-			for smartbox in range(count_smartboxes):
+			for smartbox in xrange(int(count_smartboxes)):
 				# convert bytes to hex, first of two bytes are id of smartbox, so first we need to convert
 				# its to hex and next this two bytes convert to one decimal value
 				smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7:smartbox * 7 + 2])
@@ -111,8 +116,10 @@ class SmartboxPage(Resource):
 				print "Power consumption: %d mA/s" % power_consumption
 				print "Voltage of electrical socket: %d V" % current_voltage
 				# insert to table all records which we get from package
-				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d)" % (smart_id, power_consumption, current_voltage)
-				db_operation.insert_operation(query)
+				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (smart_id, power_consumption, current_voltage)
+				query_string = query_string + query
+			db_operation.insert_operation(query_string)
+			db_operation.conn.commit() #this is much faster than doing commit in for loop
 		# build package which will be sending
 		# TODO what will be send in normal mode?
 		#query to check all smartboxes "ison" status
@@ -136,9 +143,11 @@ class SmartboxPage(Resource):
 		if len(list_ids_change_reset) > 1:
 			query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (tuple(list_ids_change_reset),)
 			db_operation.insert_operation(query_change_reset_status)
+			db_operation.conn.commit()
 		if len(list_ids_change_reset) == 1:
 			query_change_reset_status = "Update device set should_reset = 'False' where id = %s" % list_ids_change_reset[0]
 			db_operation.insert_operation(query_change_reset_status)
+			db_operation.conn.commit()
 		# calculatesum control
 		sum_of_bytes = sum(list_of_bytes_send)
 		sum_control = CRCCCITT().calculate(str(sum_of_bytes))
@@ -251,6 +260,7 @@ class DatabaseCommunication:
 		self.conn = psycopg2.connect(database="smartbox_database", user="postgres", password="postgres", host="127.0.0.1",
 		                             port="5432")
 
+	# @profile
 	def select_operation(self, query):
 		# database connection
 		cur = self.conn.cursor()
@@ -259,12 +269,13 @@ class DatabaseCommunication:
 		# self.conn.close()
 		return rows
 
+	# @profile
 	def insert_operation(self, query):
 		# database connection
 		cur = self.conn.cursor()
 		cur.execute(query)
 
-		self.conn.commit()
+		# self.conn.commit()
 		# return 0
 		# self.conn.close()
 
@@ -272,6 +283,7 @@ root = Resource()
 root.putChild("api", ApiPage())
 root.putChild("smartbox", SmartboxPage())
 factory = Site(root)
+application = service.Application("smartbox")
 endpoint = endpoints.TCP4ServerEndpoint(reactor, 8880)
 endpoint.listen(factory)
 reactor.run()

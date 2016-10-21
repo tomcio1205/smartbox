@@ -1,0 +1,215 @@
+Timer unit: 1e-06 s
+
+Total time: 34.9558 s
+File: handling_post.py
+Function: handling_samrtbox_data at line 66
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    66                                           	@profile
+    67                                           	def handling_samrtbox_data(self, request, data):
+    68                                           
+    69     51120       288121      5.6      0.8  		list_of_bytes = [ord(my_byte) for my_byte in data]
+    70      2130       125510     58.9      0.4  		print "%r" % data
+    71      2130        17858      8.4      0.1  		f_key = list_of_bytes[2]
+    72      2130        27366     12.8      0.1  		list_of_bytes_send = []
+    73                                           		# get id of currently communicating smartbox
+    74      2130        75419     35.4      0.2  		my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
+    75      2130        29929     14.1      0.1  		my_smart_id = int(my_smart_id_hex, 16)
+    76                                           		# print f_key
+    77                                           		# TODO this will work only if one bit will be set in f_key byte
+    78                                           		# first we must check sum control
+    79                                           		# sum_of_bytes_to_calc_sum_control = sum(list_of_bytes[:-2])
+    80                                           		#
+    81      2130       332408    156.1      1.0  		checksum = CRCCCITT().calculate(data[:-2])
+    82      2130        32566     15.3      0.1  		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
+    83      2130        14663      6.9      0.0  		receive_sum_control = int(receive_sum_control_hex, 16)
+    84      2130     21968702  10313.9     62.8  		db_operation = DatabaseCommunication()
+    85      2130        17400      8.2      0.0  		if checksum == receive_sum_control:
+    86      2130        58547     27.5      0.2  			print "Suma kontrolna zweryfikowana poprawnie"
+    87                                           		else:
+    88                                           			print "Sumy kontrolne różne, nie rozpatruję paczki \n"
+    89                                           			return 0
+    90      2130        44920     21.1      0.1  		list_of_all_smartboxes_id = []
+    91      2130        24924     11.7      0.1  		smart_pins = {}
+    92      2130        10573      5.0      0.0  		query_string = ''
+    93                                           
+    94                                           		# this will be done if smartbox work in normal mode
+    95      2130        11406      5.4      0.0  		if f_key == f_key_output_state:
+    96                                           			# count smartboxes which are included in package (-2 because last two bytes are bytes of sum controll)
+    97      2130        21463     10.1      0.1  			count_smartboxes = (len(list_of_bytes) - 2) / 7
+    98      2130        26367     12.4      0.1  			print "Stan wyjścia obecny"
+    99      8520        75212      8.8      0.2  			for smartbox in xrange(int(count_smartboxes)):
+   100                                           				# convert bytes to hex, first of two bytes are id of smartbox, so first we need to convert
+   101                                           				# its to hex and next this two bytes convert to one decimal value
+   102      6390       124108     19.4      0.4  				smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7:smartbox * 7 + 2])
+   103                                           				# convert id to decimal
+   104      6390       104937     16.4      0.3  				smart_id = int(smart_id_hex.encode('hex'), 16)
+   105                                           				# append all ids to list
+   106      6390        36696      5.7      0.1  				list_of_all_smartboxes_id.append(smart_id)
+   107                                           				# 5 and 6 bytes represent power consumption of electric socket which master smartbox is connected to
+   108      6390        84644     13.2      0.2  				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7 + 4:smartbox * 7 + 6])
+   109                                           				# convert power consumption to decimal
+   110      6390        72024     11.3      0.2  				power_consumption = int(power_consumption_hex.encode('hex'), 16)
+   111                                           				# 7 bytes represent voltage of electric socket which master smartbox is connected to
+   112      6390        37046      5.8      0.1  				current_voltage = list_of_bytes[smartbox * 7 + 6]
+   113                                           				# +3 because pin is fourth in package (we count from 0 so is +3)
+   114      6390        70266     11.0      0.2  				smart_pins[smart_id] = int(chr(list_of_bytes[smartbox * 7 + 3]).encode('hex'), 16)
+   115      6390       104241     16.3      0.3  				print "My smart id: %d" % smart_id
+   116      6390        98473     15.4      0.3  				print "Power consumption: %d mA/s" % power_consumption
+   117      6390        93271     14.6      0.3  				print "Voltage of electrical socket: %d V" % current_voltage
+   118                                           				# insert to table all records which we get from package
+   119      6390        67026     10.5      0.2  				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (smart_id, power_consumption, current_voltage)
+   120      6390        39637      6.2      0.1  				query_string = query_string + query
+   121      2130      4896694   2298.9     14.0  			db_operation.insert_operation(query_string)
+   122      2130      2660866   1249.2      7.6  			db_operation.conn.commit() #this is much faster than doing commit in for loop
+   123                                           		# build package which will be sending
+   124                                           		# TODO what will be send in normal mode?
+   125                                           		#query to check all smartboxes "ison" status
+   126      2130        50007     23.5      0.1  		query_ison = "select id, ison, should_reset from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
+   127      2130      1767557    829.8      5.1  		result_ison = db_operation.select_operation(query_ison)
+   128      2130        10850      5.1      0.0  		f_key_send = 0;
+   129      2130        13212      6.2      0.0  		list_ids_change_reset = []
+   130      8520        51968      6.1      0.1  		for num, ids in enumerate(list_of_all_smartboxes_id):
+   131                                           			# we must cut decimal id to bytes - 451 -> to hex -> to bytes in dec
+   132      6390        54462      8.5      0.2  			smart_id_hex = bytearray(pack('H', ids))
+   133      6390        89089     13.9      0.3  			smart_id_dec_low = int(chr(smart_id_hex[1]).encode('hex'), 16)
+   134      6390        67533     10.6      0.2  			smart_id_dec_high = int(chr(smart_id_hex[0]).encode('hex'), 16)
+   135      6390        37966      5.9      0.1  			f_key_send += int(result_ison[num][1])
+   136                                           			# if smartob should reset add 4 to f_key (third byte is high)
+   137      6390        32777      5.1      0.1  			if result_ison[num][2]:
+   138                                           				f_key_send += 4
+   139                                           				list_ids_change_reset.append(ids)
+   140                                           			# fill package - id low, id high, ison, pin
+   141      6390        41439      6.5      0.1  			list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, f_key_send, smart_pins[ids]])
+   142                                           		# with one element tuple is like (451,) so with this comma it isn't correct query
+   143      2130        11298      5.3      0.0  		if len(list_ids_change_reset) > 1:
+   144                                           			query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (tuple(list_ids_change_reset),)
+   145                                           			db_operation.insert_operation(query_change_reset_status)
+   146                                           			db_operation.conn.commit()
+   147      2130        10520      4.9      0.0  		if len(list_ids_change_reset) == 1:
+   148                                           			query_change_reset_status = "Update device set should_reset = 'False' where id = %s" % list_ids_change_reset[0]
+   149                                           			db_operation.insert_operation(query_change_reset_status)
+   150                                           			db_operation.conn.commit()
+   151                                           		# calculatesum control
+   152      2130        13551      6.4      0.0  		sum_of_bytes = sum(list_of_bytes_send)
+   153      2130       127514     59.9      0.4  		sum_control = CRCCCITT().calculate(str(sum_of_bytes))
+   154      2130        14723      6.9      0.0  		sum_control_array = bytearray(pack('H', sum_control))
+   155                                           
+   156      2130        14958      7.0      0.0  		list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
+   157                                           
+   158                                           		# print "%r" % list_of_bytes_send
+   159                                           		# print "%r" % ''.join(str(bytearray(list_of_bytes_send)))
+   160      2130        51562     24.2      0.1  		package_r = ':'.join(str(x) for x in list_of_bytes_send)
+   161      2130        12178      5.7      0.0  		package_r += ':p'
+   162      2130        47490     22.3      0.1  		print "%r" % package_r
+   163      2130       675542    317.2      1.9  		request.write(package_r)
+   164                                           
+   165                                           		#Is this really necessary?
+   166      2130        11999      5.6      0.0  		if f_key == f_key_wrong_pin:
+   167                                           			print "W naszej poprzedniej rozmowie podałeś błędny PIN"
+   168                                           
+   169      2130        10991      5.2      0.0  		if f_key == f_key_draw_current:
+   170                                           			print "Coś pobiera prąd w mniejszym lub większym stopniu prąd ale jednak"
+   171                                           
+   172      2130        10580      5.0      0.0  		if f_key == f_key_alarm:
+   173                                           			print "Zaistniał alarm z przeciążenia/zwarcie gniazdka"
+   174                                           
+   175      2130        11270      5.3      0.0  		if f_key == f_key_report:
+   176                                           			# \x01\xc3\x10\xff\x04\xe2\xe6\x01\xc4\x01\xff\x04\xe2\xe6\x01\xc5\x01\xff\x04\xe2\xe6\xff\xff
+   177                                           			print "Ta paczka to raport na temat sieci i ostatniego połaczenia"
+   178                                           
+   179      2130        10522      4.9      0.0  		if f_key == f_key_ready_for_configuration:
+   180                                           			# \x01\xc3\x40\xff\x04\xe2
+   181                                           
+   182                                           			print "Dobra jestem gotowy na przyjęcie nowej paczki z konfiguracją - dawaj ją!"
+   183                                           
+   184                                           			# TODO this query is hardcoded,it must be changed
+   185                                           			query = "Select ip_adress, port from servers where id = 1"
+   186                                           			query_result = db_operation.select_operation(query)
+   187                                           			# query_result = self.database_operation(query, "select")
+   188                                           			ip = query_result[0][0]
+   189                                           			port = query_result[0][1]
+   190                                           			ip_byte = bytearray(inet_aton(str(ip)))
+   191                                           			# port is saved in two bytes, port varaible in example i equal to 8000
+   192                                           			# so port port_byte is write in two bytes, for 8000 is equal to '@\x1f'
+   193                                           			# port_byte[0] = 64 , port_byte[1] = 31
+   194                                           			port_byte = bytearray(pack('h', port))
+   195                                           			# TODO don't know how set 3rd byte
+   196                                           			# for now 3rd byte will be resend
+   197                                           			# TODO for now nothing change in first 3 byte so maybe mask is not necessary?
+   198                                           			# TODO in bytes from 11 to 29 we send information about smartboxes working in current network,
+   199                                           
+   200                                           			# get first two bytes - smartbox id
+   201                                           			smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[:2])
+   202                                           
+   203                                           			# convert id to decimal
+   204                                           			smart_id = int(smart_id_hex.encode('hex'), 16)
+   205                                           			query_network_id = "Select network_id from smartbox_settings where smart_id = %d" % smart_id
+   206                                           			# print smart_id
+   207                                           			network_id = db_operation.select_operation(query_network_id)[0][0]
+   208                                           			# network_id = self.database_operation(query_network_id, "select")[0][0]
+   209                                           			query = "Select smart_id, smart_password from smartbox_settings where network_id = %d" % network_id
+   210                                           			all_smartboxes_ids = db_operation.select_operation(query)
+   211                                           			smartboxes_count = len(all_smartboxes_ids)
+   212                                           			# -1 beacuse select return also id of master smartbox
+   213                                           			# 128 because its means that this package is the configuration package
+   214                                           			list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 128, list_of_bytes[3], ip_byte[0],
+   215                                           			                           ip_byte[1], ip_byte[2], ip_byte[3], port_byte[0], port_byte[1],
+   216                                           			                           smartboxes_count - 1])
+   217                                           
+   218      2130        11007      5.2      0.0  		if f_key == f_key_empty_memory:
+   219                                           			print "Mam pustą pamięć proszę o paczkę konfiguracji"
+   220                                           
+   221                                           			# TODO this query is hardcoded,it must be changed
+   222                                           			query = "Select ip_adress, port from servers where id = 1"
+   223                                           			# query_result = self.database_operation(query, "select")
+   224                                           			query_result = db_operation.select_operation(query)
+   225                                           			ip = query_result[0][0]
+   226                                           			port = query_result[0][1]
+   227                                           			ip_byte = bytearray(inet_aton(str(ip)))
+   228                                           			# port is saved in two bytes, port varaible in example i equal to 8000
+   229                                           			# so port port_byte is write in two bytes, for 8000 is equal to '@\x1f'
+   230                                           			# port_byte[0] = 64 , port_byte[1] = 31
+   231                                           			port_byte = bytearray(pack('H', port))
+   232                                           			# TODO don't know how set 3rd byte
+   233                                           			# for now 3rd byte will be resend
+   234                                           			# TODO for now nothing change in first 3 byte so maybe mask is not necessary?
+   235                                           			# TODO in bytes from 11 to 29 we send information about smartboxes working in current network,
+   236                                           			# this must be done later beacouse i dont know how to get this information
+   237                                           			# 64 because its means that next package will be configuration package
+   238                                           
+   239                                           			list_of_bytes_send.extend([list_of_bytes[0], list_of_bytes[1], 64,
+   240                                           			                           list_of_bytes[3], ip_byte[0], ip_byte[1], ip_byte[2],
+   241                                           			                           ip_byte[3], port_byte[0], port_byte[1]])
+   242                                           			# list_of_bytes_send is bytearray type which is represented by bytearray(b'\xff\xff')
+   243                                           			# to send only bytes we must convert this array and we get only '\xff\xff'
+   244                                           			self.sendResponse(bytes(list_of_bytes_send))
+
+Total time: 1.70144 s
+File: handling_post.py
+Function: select_operation at line 263
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   263                                           	@profile
+   264                                           	def select_operation(self, query):
+   265                                           		# database connection
+   266      2130        34942     16.4      2.1  		cur = self.conn.cursor()
+   267      2130      1646115    772.8     96.7  		cur.execute(query)
+   268      2130        16710      7.8      1.0  		rows = cur.fetchall()
+   269                                           		# self.conn.close()
+   270      2130         3675      1.7      0.2  		return rows
+
+Total time: 4.82078 s
+File: handling_post.py
+Function: insert_operation at line 272
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   272                                           	@profile
+   273                                           	def insert_operation(self, query):
+   274                                           		# database connection
+   275      2130        53306     25.0      1.1  		cur = self.conn.cursor()
+   276      2130      4767476   2238.3     98.9  		cur.execute(query)
+

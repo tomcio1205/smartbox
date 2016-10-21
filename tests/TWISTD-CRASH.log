@@ -1,0 +1,88 @@
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 310, in runReactorWithLogging
+    reactor.run()
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 310, in runReactorWithLogging
+    reactor.run()
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 310, in runReactorWithLogging
+    reactor.run()
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 310, in runReactorWithLogging
+    reactor.run()
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 310, in runReactorWithLogging
+    reactor.run()
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 300, in runReactorWithLogging
+    profiler.run(reactor)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 105, in run
+    p.runcall(reactor.run)
+  File "/usr/lib/python2.7/cProfile.py", line 149, in runcall
+    return func(*args, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 310, in runReactorWithLogging
+    reactor.run()
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 300, in runReactorWithLogging
+    profiler.run(reactor)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/application/app.py", line 105, in run
+    p.runcall(reactor.run)
+  File "/usr/lib/python2.7/cProfile.py", line 149, in runcall
+    return func(*args, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1194, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 1174, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python2.7/dist-packages/twisted/internet/base.py", line 684, in startRunning
+    raise error.ReactorNotRestartable()
+ReactorNotRestartable
