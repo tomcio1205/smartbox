@@ -4,7 +4,7 @@ import sys
 from multiprocessing.dummy import Pool as ThreadPool
 import threading
 # params = urllib.urlencode({'@number': 12524, '@type': 'issue', '@action': 'show'})
-threads_number = 100
+threads_number = 2
 latency_array = []
 
 program_start = time.time()

@@ -6,19 +6,13 @@ from socket import inet_aton
 from struct import pack
 
 from PyCRC.CRCCCITT import CRCCCITT
-from twisted.internet import reactor, endpoints, defer, threads
+from twisted.internet import reactor, endpoints
 from twisted.web.resource import Resource
 from twisted.web.server import Site
 
 from twisted.application import service
 
-from twisted.enterprise import adbapi
-from time import sleep
-
-pool = adbapi.ConnectionPool("psycopg2", host='127.0.0.1', port=5432, database='smartbox_database',
-                            user='postgres', password='postgres', cp_min=3, cp_max=10, cp_noisy=True,
-                            cp_reconnect=True, cp_good_sql="SELECT 1")
-
+from txpostgres import  txpostgres
 # bit mask to check if memory in smartbox is empty
 f_key_empty_memory = 128
 # bit mask - smartbox saying that it is ready for configuration package
@@ -41,6 +35,7 @@ class ApiPage(Resource):
 
 	def render_POST(self, request):
 		data = json.loads(request.content.read())
+		db_operation = DatabaseCommunication()
 		comma = 0
 		# query = "UPDATE device SET ison = '%s' WHERE id = %s" % (data['ison'], data['smart_id'])
 		query = "UPDATE device SET "
@@ -52,8 +47,8 @@ class ApiPage(Resource):
 				query += ", "
 			query += "should_reset = '%s' " % data['should_reset']
 		query += "WHERE id = %s" % data['smart_id']
-		db = DatabaseCommunication()
-		db.call_cur_query(query)
+
+		db_operation.insert_operation(query)
 		# print x['smart_id']
 		request.write('<html><body>You submitted: %r</body></html>' % data)  # (cgi.escape(request.content.read()),)
 
@@ -70,8 +65,8 @@ class SmartboxPage(Resource):
 		request.write("cccccccccccccccc")
 
 	# @profile
-	@defer.inlineCallbacks
 	def handling_samrtbox_data(self, request, data):
+
 		list_of_bytes = [ord(my_byte) for my_byte in data]
 		print "%r" % data
 		f_key = list_of_bytes[2]
@@ -92,8 +87,7 @@ class SmartboxPage(Resource):
 			print "Suma kontrolna zweryfikowana poprawnie"
 		else:
 			print "Sumy kontrolne różne, nie rozpatruję paczki \n"
-			#TODO - take steps if checksum are different
-			# return 0
+			return 0
 		list_of_all_smartboxes_id = []
 		smart_pins = {}
 		query_string = ''
@@ -125,14 +119,14 @@ class SmartboxPage(Resource):
 				# insert to table all records which we get from package
 				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (smart_id, power_consumption, current_voltage)
 				query_string = query_string + query
-			yield pool.runInteraction(db_operation.insert_operation, query_string)
+			db_operation.insert_operation(query_string)
 			# db_operation.conn.commit() #this is much faster than doing commit in for loop
 			# build package which will be sending
 			# TODO what will be send in normal mode?
 			#query to check all smartboxes "ison" status
 			query_ison = "select id, ison, should_reset from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
-			result_ison = yield pool.runQuery(query_ison)
-			f_key_send = 0
+			result_ison = db_operation.select_operation(query_ison)
+			f_key_send = 0;
 			list_ids_change_reset = []
 			for num, ids in enumerate(list_of_all_smartboxes_id):
 				# we must cut decimal id to bytes - 451 -> to hex -> to bytes in dec
@@ -149,10 +143,10 @@ class SmartboxPage(Resource):
 			# with one element tuple is like (451,) so with this comma it isn't correct query
 			if len(list_ids_change_reset) > 1:
 				query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (tuple(list_ids_change_reset),)
-				db_operation.call_cur_query(query_change_reset_status)
+				db_operation.insert_operation(query_change_reset_status)
 			if len(list_ids_change_reset) == 1:
 				query_change_reset_status = "Update device set should_reset = 'False' where id = %s" % list_ids_change_reset[0]
-				db_operation.call_cur_query(query_change_reset_status)
+				db_operation.insert_operation(query_change_reset_status)
 			# calculatesum control
 			sum_of_bytes = sum(list_of_bytes_send)
 			sum_control = CRCCCITT().calculate(str(sum_of_bytes))
@@ -165,10 +159,7 @@ class SmartboxPage(Resource):
 			package_r = ':'.join(str(x) for x in list_of_bytes_send)
 			package_r += ':p'
 			print "%r" % package_r
-			# d = defer.Deferred()
-			d = threads.deferToThread(self.make_delay, request)
-			d.addCallback(self.send_response)
-			# request.write(package_r)
+			request.write(package_r)
 
 		#Is this really necessary?
 		if f_key == f_key_wrong_pin:
@@ -251,79 +242,44 @@ class SmartboxPage(Resource):
 			# to send only bytes we must convert this array and we get only '\xff\xff'
 			self.sendResponse(bytes(list_of_bytes_send))
 
-	def make_delay(self, request):
-		print 'Sleeping'
-		sleep(5)
-		return request
-
-	def send_response(self, request):
-		request.write('1:195:0:144:1:196:1:255:1:197:1:255:126:125:p')
-		request.finish()
-		# pass
-
-
+		# def database_operation(self, query, query_type):
+		# 	# database connection
+		# 	conn = psycopg2.connect(database="smartbox", user="postgres", password="postgres", host="127.0.0.1",
+		# 	                        port="5432")
+		# 	cur = conn.cursor()
+		# 	cur.execute(query)
+		# 	rows = cur.fetchall()
+		# 	return rows
+		# 	conn.close()
 
 
 class DatabaseCommunication:
-	# def __init__(self):
-	#
-	# 	self.db = pool
+	def __init__(self):
+		# global conn
+		# self.conn = adbapi.ConnectionPool("psycopg2", database="smartbox_database", user="postgres", password="postgres", host="127.0.0.1",
+		#                              port="5432")
+		self.conn = psycopg2.connect(database="smartbox_database", user="postgres", password="postgres", host="127.0.0.1",
+		                             port="5432")
+
+
 	# @profile
-	# def select_operation(self, query):
-	# 	# database connection
-	# 	cur = self.conn.cursor()
-	# 	cur.execute(query)
-	# 	rows = cur.fetchall()
-	# 	# self.conn.close()
-	# 	return rows
-	#
-	# # @profile
-	# def insert_operation(self, query):
-	# 	# database connection
-	# 	cur = self.conn.cursor()
-	# 	cur.execute(query)
-	#
-	# 	self.conn.commit()
-	# 	# return 0
-	# 	# self.conn.close()
-	# def call_query(self, query):
-	# 	connect.addCallback(self.database_cursor(query))
-	# result = ''
-	# def call_cur_query(self, query):
-	# 	self.query = query
-	# 	connect.addCallback(lambda _: postgres.cursor())
-	# 	connect.addCallback(self.database_cursor)
+	def select_operation(self, query):
+		# database connection
+		cur = self.conn.cursor()
+		cur.execute(query)
+		rows = cur.fetchall()
+		# self.conn.close()
+		return rows
 
-	# def call_inter_query(self, query):
-	# 	self.query = query
-	# 	connect.addCallback(lambda _: postgres.runInteraction(self.database_interaction))
+	# @profile
+	def insert_operation(self, query):
+		# database connection
+		cur = self.conn.cursor()
+		cur.execute(query)
 
-	# def call_select_query(self, cursor, query):
-	# 	self.select_operation(query).addCallback(self.got)
-
-
-	def select_operation(self, cursor, query):
-		cursor.execute(query)
-
-	def insert_operation(self, cursor, query):
-		cursor.execute(query)
-	# def got(self, rows):
-	# 	self.res = rows
-	# 	return rows
-		# print "%r" % self.res
-		# return self.res
-
-		# self.connect.addCallback(got)
-		# self.connect.addCallback(lambda _: self.postgres.close())
-		# self.connect.addErrback(log.err)
-		# return res
-		# conn = cur.execute(query)
-		# conn.addCallback(lambda _: cur.fetchone())
-		# conn.addCallback(lambda result: result[0])
-		# return conn.addCallback(lambda _: cur.close())
-
-	# def database_interaction(self):
-	# 	pass
+		self.conn.commit()
+		# return 0
+		# self.conn.close()
 
 root = Resource()
 root.putChild("api", ApiPage())
