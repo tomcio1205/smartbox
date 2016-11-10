@@ -10,6 +10,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include "Crc16.h"
+#include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
 
 #define USE_SERIAL Serial
@@ -28,6 +29,7 @@ Crc16 crc;
 ESP8266WiFiMulti WiFiMulti;
 
 //byte byteArray[ARRAY_SIZE];
+
 String data = "";
 char bb0 = 1;
 char bb1 = 195;
@@ -77,6 +79,7 @@ void setup() {
 
     pinMode(12, OUTPUT);
 
+
     USE_SERIAL.begin(115200);
    // USE_SERIAL.setDebugOutput(true);
 
@@ -90,9 +93,9 @@ void setup() {
         delay(1000);
     }
 
-    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
+//    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
 //    WiFiMulti.addAP("NETIASPOT-52CC50", "c2svzibeu6i5");
-//    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
+    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
 
 }
 
@@ -130,7 +133,17 @@ void loop() {
 //        byteArray[2] = 12;
 //        byteArray[3] = 144;
 //        byteArray[4] = 0;
-        
+        DynamicJsonBuffer jsonBuffer;
+        JsonObject& root = jsonBuffer.createObject();
+        JsonArray& dataa = root.createNestedArray("data");
+        root["sensor"] = "gps";
+        root["time"] = 1351824120;
+//        dataa.add(48.756080, 6);  // 6 is the number of decimals to print
+//        dataa.add(2.302038, 6);   // if not specified, 2 digits are printed
+        dataa.add(2);
+        dataa.add(3);
+        dataa.add(4);
+        root.printTo(Serial);
         crc.clearCrc();
         for (int i=0; i<data.length(); i++)
         {
@@ -147,12 +160,14 @@ void loop() {
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
         //http.begin("https://192.168.1.12/test.html", "7a 9c f4 db 40 d3 62 5a 6e 21 bc 5c cc 66 c8 3e a1 45 59 38"); //HTTPS
-        http.begin("http://192.168.2.115:8880/smartbox"); //HTTP
+        http.begin("http://192.168.1.7:8880/smartbox"); //HTTP
 
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
         http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        int httpCode = http.POST(data);
+        String output;
+        root.printTo(output);
+        int httpCode = http.POST(output);
 //        int httpCode = http.GET();
 
         // httpCode will be negative on error

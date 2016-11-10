@@ -124,7 +124,10 @@ class SmartboxPage(Resource):
 			# build package which will be sending
 			# TODO what will be send in normal mode?
 			#query to check all smartboxes "ison" status
-			query_ison = "select id, ison, should_reset from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
+			if len(list_of_all_smartboxes_id) > 1:
+				query_ison = "select id, ison, should_reset from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
+			elif len(list_of_all_smartboxes_id) == 1:
+				query_ison = "select id, ison, should_reset from device where id = %s" % list_of_all_smartboxes_id[0]
 			result_ison = db_operation.select_operation(query_ison)
 			f_key_send = 0;
 			list_ids_change_reset = []
