@@ -11,6 +11,7 @@ from twisted.web.resource import Resource
 from twisted.web.server import Site, NOT_DONE_YET
 from twisted.application import service
 from twisted.internet.task import deferLater
+
 # from txpostgres import  txpostgres
 
 # bit mask to check if memory in smartbox is empty
@@ -30,15 +31,18 @@ f_key_output_state = 1
 
 
 class ApiPage(Resource):
-	# def render_GET(self, request):
-	#     return '<html><body><form method="POST"><input name="the-field" type="text" /></form></body></html>'
+	def render_GET(self, request):
+		""" Function to handling GET method from api """
+		return '<html><body><form method="POST"><input name="the-field" type="text" /></form></body></html>'
 
 	def render_POST(self, request):
-
+		""" Function to handling POST method from api
+            App communicate with server by sending json.
+            This function get necessary data from json
+            and commit to database """
 		data = json.loads(request.content.read())
 		db_operation = DatabaseCommunication()
 		comma = 0
-		# query = "UPDATE device SET ison = '%s' WHERE id = %s" % (data['ison'], data['smart_id'])
 		query = "UPDATE device SET "
 
 		if 'ison' in data:
@@ -52,67 +56,72 @@ class ApiPage(Resource):
 
 		query += "WHERE id = %s" % data['smart_id']
 		db_operation.insert_operation(query)
-		# print x['smart_id']
 
-		request.write('<html><body>You submitted: %r</body></html>' % data)  # (cgi.escape(request.content.read()),)
+		request.write('<html><body>You submitted: %r</body></html>' % data)
 
 	# request.finish()
 
 
 class SmartboxPage(Resource):
-
 	def render_POST(self, request):
-		data = request.content.read()
-		print "%r" %data
+		"""This function is used to get data from esp
+           and call function which handling this"""
+		data = json.loads(request.content.read())
+		print "%r" % data
 		d = deferLater(reactor, 0.01, lambda: request)
 		d.addCallback(self.handling_samrtbox_data, data)
 
 		return NOT_DONE_YET
-		# self.handling_samrtbox_data(request, data)
+
+	# self.handling_samrtbox_data(request, data)
 
 	def render_GET(self, request):
-
+		""" Simple function to test GET method from esp"""
 		print "%r" % request.content.read()
-
 		request.write("cccccccccccccccc")
 
 	# @profile
 	def handling_samrtbox_data(self, request, data):
-
-		list_of_bytes = [ord(my_byte) for my_byte in data]
-		print "%r" % data
+		""" Function that interprets received data from esp
+            This function read package of ints that represent
+            some functionality, calculate checksum and compare it
+            with received checksum. When its not the same function
+            closed connection and return 0. Otherwise interprets
+            f_key (functionality key) and doing its jobs"""
+		list_of_bytes = data['data']
+		print "%r" % data['data']
 		f_key = list_of_bytes[2]
 		list_of_bytes_send = []
 		# get id of currently communicating smartbox
-		my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
-		my_smart_id = int(my_smart_id_hex, 16)
+		# my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
+		# my_smart_id = int(my_smart_id_hex, 16)
 		# print f_key
 		# TODO this will work only if one bit will be set in f_key byte
 		# first we must check sum control
 		# sum_of_bytes_to_calc_sum_control = sum(list_of_bytes[:-2])
-		#
-		checksum = CRCCCITT().calculate(data[:-2])
+
+		checksum = CRCCCITT().calculate("".join(map(chr, list_of_bytes[:-2])))
 		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
 		receive_sum_control = int(receive_sum_control_hex, 16)
 		db_operation = DatabaseCommunication()
 
 		if checksum == receive_sum_control:
-			print "Suma kontrolna zweryfikowana poprawnie"
+			print "Checksum verified"
 
 		else:
-			print "Sumy kontrolne różne, nie rozpatruję paczki \n"
-
+			print "Wrong checksum, package is not interpreted \n"
+			request.finish()
 			return 0
 
 		list_of_all_smartboxes_id = []
 		smart_pins = {}
 		query_string = ''
 
-		#################################
-		#Bartek dodaje 1 do danych
-		list_of_bytes[4] -= 1
-		list_of_bytes[5] -= 1
-		#################################
+		# #################################
+		# # Bartek dodaje 1 do danych
+		# list_of_bytes[4] -= 1
+		# list_of_bytes[5] -= 1
+		# #################################
 
 		# this will be done if smartbox work in normal mode
 		if f_key == f_key_output_state:
@@ -142,16 +151,18 @@ class SmartboxPage(Resource):
 				print "Voltage of electrical socket: %d V" % current_voltage
 
 				# insert to table all records which we get from package
-				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (smart_id, power_consumption, current_voltage)
+				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (
+				smart_id, power_consumption, current_voltage)
 				query_string = query_string + query
 
 			db_operation.insert_operation(query_string)
 			# db_operation.conn.commit() #this is much faster than doing commit in for loop
 			# build package which will be sending
 			# TODO what will be send in normal mode?
-			#query to check all smartboxes "ison" status
+			# query to check all smartboxes "ison" status
 			if len(list_of_all_smartboxes_id) > 1:
-				query_ison = "select id, ison, should_reset from device where id in %s" % (tuple(list_of_all_smartboxes_id),)
+				query_ison = "select id, ison, should_reset from device where id in %s" % (
+				tuple(list_of_all_smartboxes_id),)
 			elif len(list_of_all_smartboxes_id) == 1:
 				query_ison = "select id, ison, should_reset from device where id = %s" % list_of_all_smartboxes_id[0]
 
@@ -175,11 +186,13 @@ class SmartboxPage(Resource):
 
 			# with one element tuple is like (451,) so with this comma it isn't correct query
 			if len(list_ids_change_reset) > 1:
-				query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (tuple(list_ids_change_reset),)
+				query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (
+				tuple(list_ids_change_reset),)
 				db_operation.insert_operation(query_change_reset_status)
 
 			if len(list_ids_change_reset) == 1:
-				query_change_reset_status = "Update device set should_reset = 'False' where id = %s" % list_ids_change_reset[0]
+				query_change_reset_status = "Update device set should_reset = 'False' where id = %s" % \
+				                            list_ids_change_reset[0]
 				db_operation.insert_operation(query_change_reset_status)
 
 			# calculatesum control
@@ -197,7 +210,7 @@ class SmartboxPage(Resource):
 			request.write(package_r)
 			request.finish()
 
-		#Is this really necessary?
+		# Is this really necessary?
 		if f_key == f_key_wrong_pin:
 			print "W naszej poprzedniej rozmowie podałeś błędny PIN"
 
@@ -294,9 +307,9 @@ class DatabaseCommunication:
 		# global conn
 		# self.conn = adbapi.ConnectionPool("psycopg2", database="smartbox_database", user="postgres", password="postgres", host="127.0.0.1",
 		#                              port="5432")
-		self.conn = psycopg2.connect(database="smartbox_database", user="postgres", password="postgres", host="127.0.0.1",
+		self.conn = psycopg2.connect(database="smartbox_database", user="postgres", password="postgres",
+		                             host="127.0.0.1",
 		                             port="5432")
-
 
 	# @profile
 	def select_operation(self, query):
@@ -314,8 +327,10 @@ class DatabaseCommunication:
 		cur.execute(query)
 
 		self.conn.commit()
-		# return 0
-		# self.conn.close()
+
+	# return 0
+	# self.conn.close()
+
 
 root = Resource()
 root.putChild("api", ApiPage())
