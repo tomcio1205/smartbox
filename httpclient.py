@@ -16,8 +16,9 @@ f.close()
 def httpClient(threadName):
 	headers = {"Content-type": "application/x-www-form-urlencoded",
 	           "Accept": "text/plain"}
-	data = '\x01\xc3\x01\x90\x04\xe2\xe6\x01\xc4\x01\xff\x04\xe2\xe6\x01\xc5\x01\xff\x04\xe2\x01\x8a\xe4'
-	conn = httplib.HTTPConnection("51.255.162.139", 8880)
+	# data = '\x01\xc3\x01\x04\xe2\x01\xc4\x01\x04\xe2\x01\xc5\x01\x04\xe2\x8a\xe4'
+	data = '{"data":[1,195,1,4,226,1,196,1,4,226,1,197,1,4,226,198,27]}'
+	conn = httplib.HTTPConnection("192.168.2.107", 8880)
 	# while True:
 	while True:
 		f = open('http_latency1.txt', 'a')
