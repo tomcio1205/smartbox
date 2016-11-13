@@ -123,7 +123,7 @@ class SmartboxPage(Resource):
 		# list_of_bytes[5] -= 1
 		# #################################
 
-		# this will be done if smartbox work in normal mode
+		# this will be done if smartbox work in normal mode (f_key == 1)
 		if f_key == f_key_output_state:
 			# count smartboxes which are included in package (-2 because last two bytes are bytes of sum controll)
 			count_smartboxes = (len(list_of_bytes) - 2) / 7
@@ -152,8 +152,8 @@ class SmartboxPage(Resource):
 
 				# insert to table all records which we get from package
 				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (
-				smart_id, power_consumption, current_voltage)
-				query_string = query_string + query
+					smart_id, power_consumption, current_voltage)
+				query_string += query
 
 			db_operation.insert_operation(query_string)
 			# db_operation.conn.commit() #this is much faster than doing commit in for loop
@@ -162,7 +162,7 @@ class SmartboxPage(Resource):
 			# query to check all smartboxes "ison" status
 			if len(list_of_all_smartboxes_id) > 1:
 				query_ison = "select id, ison, should_reset from device where id in %s" % (
-				tuple(list_of_all_smartboxes_id),)
+					tuple(list_of_all_smartboxes_id),)
 			elif len(list_of_all_smartboxes_id) == 1:
 				query_ison = "select id, ison, should_reset from device where id = %s" % list_of_all_smartboxes_id[0]
 
@@ -181,13 +181,12 @@ class SmartboxPage(Resource):
 					f_key_send += 4
 					list_ids_change_reset.append(ids)
 				# fill package - id low, id high, ison, pin
-
 				list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, f_key_send, smart_pins[ids]])
 
 			# with one element tuple is like (451,) so with this comma it isn't correct query
 			if len(list_ids_change_reset) > 1:
 				query_change_reset_status = "Update device set should_reset = 'False' where id in %s" % (
-				tuple(list_ids_change_reset),)
+					tuple(list_ids_change_reset),)
 				db_operation.insert_operation(query_change_reset_status)
 
 			if len(list_ids_change_reset) == 1:
