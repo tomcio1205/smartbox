@@ -72,7 +72,6 @@ CREATE TABLE device_measurement (
     ID          bigserial PRIMARY KEY,
     Dvice_ID	integer REFERENCES device (ID),
     Power_Consumption	integer,
-    Socket_Voltage    integer,
     Measurement_Time  	timestamp with time zone default current_timestamp
 );
 

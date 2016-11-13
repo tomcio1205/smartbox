@@ -73,9 +73,9 @@ void setup() {
         delay(1000);
     }
 
-//    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
+    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
 //    WiFiMulti.addAP("NETIASPOT-52CC50", "c2svzibeu6i5");
-    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
+//    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
 
 
 }
@@ -113,7 +113,6 @@ void loop() {
         dataa.add(bb18);
         dataa.add(bb19);
         dataa.add(bb20);
-
         crc.clearCrc();
 
         for (int i=0; i<array_size; i++)
@@ -132,7 +131,7 @@ void loop() {
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
         //http.begin("https://192.168.1.12/test.html", "7a 9c f4 db 40 d3 62 5a 6e 21 bc 5c cc 66 c8 3e a1 45 59 38"); //HTTPS
-        http.begin("http://192.168.1.7:8880/smartbox"); //HTTP
+        http.begin("http://192.168.2.107:8880/smartbox"); //HTTP
 
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header

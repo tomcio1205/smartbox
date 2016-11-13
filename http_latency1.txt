@@ -2713,3 +2713,106 @@ Thread number Thread - 1:  : Request latency: 0.1293 s
 
 NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 2:  : Request latency: 0.0263 s 
+Thread number Thread - 1:  : Request latency: 0.0274 s 
+Thread number Thread - 2:  : Request latency: 0.0264 s 
+Thread number Thread - 1:  : Request latency: 0.0264 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 2:  : Request latency: 0.0275 s 
+Thread number Thread - 1:  : Request latency: 0.0285 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 2:  : Request latency: 0.0269 s 
+Thread number Thread - 1:  : Request latency: 0.0274 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 2:  : Request latency: 0.0277 s 
+Thread number Thread - 1:  : Request latency: 0.0274 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 1:  : Request latency: 0.0273 s 
+Thread number Thread - 2:  : Request latency: 0.0270 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 1:  : Request latency: 0.0379 s 
+Thread number Thread - 2:  : Request latency: 0.0379 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 2:  : Request latency: 16.4206 s 
+Thread number Thread - 1:  : Request latency: 16.4208 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 1:  : Request latency: 0.0198 s 
+Thread number Thread - 2:  : Request latency: 0.0197 s 
+
+NEXT TEST FOR MEASURE REQUEST TIME (3 THREADS)
+
+Thread number Thread - 1:  : Request latency: 0.0388 s 
+Thread number Thread - 2:  : Request latency: 0.0398 s 
+Thread number Thread - 2:  : Request latency: 0.0342 s 
+Thread number Thread - 1:  : Request latency: 0.0335 s 

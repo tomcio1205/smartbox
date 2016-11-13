@@ -62,6 +62,54 @@ class ApiPage(Resource):
 	# request.finish()
 
 
+class SmartboxConfiguration(Resource):
+	def render_POST(self, request):
+		data = json.loads(request.content.read())
+		print "Configurtion package: %r" % data
+		d = deferLater(reactor, 0.01, lambda: request)
+		d.addCallback(self.handling_configuration_data, data)
+
+		return NOT_DONE_YET
+		# self.handling_configuration_data(request, data)
+
+	def handling_configuration_data(self, request, data):
+		list_of_bytes_send = []
+		list_of_bytes = data['data']
+		f_key = list_of_bytes[2]
+
+		if f_key != 128:
+			print "Wrong f_key"
+		else:
+			checksum = CRCCCITT().calculate("".join(map(chr, list_of_bytes[:-2])))
+			receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
+			receive_sum_control = int(receive_sum_control_hex, 16)
+
+			if checksum == receive_sum_control:
+				print "Checksum for configuration package verified"
+			else:
+				print "Wrong checksum, package is not interpreted \n"
+				request.finish()
+				return 0
+
+			my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
+			my_smart_id = int(my_smart_id_hex, 16)
+			db_operation = DatabaseCommunication()
+			query_get_user = "select user_id from device where id = %s" % my_smart_id
+			user_id = db_operation.select_operation(query_get_user)[0][0]
+			query_get_all_device = "select id from device where user_id = %s" %user_id
+			all_device_on_net = db_operation.select_operation(query_get_all_device)
+			for device in all_device_on_net:
+				device_id_hex = bytearray(pack('H', device[0]))
+				device_id_dec_low = int(chr(device_id_hex[1]).encode('hex'), 16)
+				device_id_dec_high = int(chr(device_id_hex[0]).encode('hex'), 16)
+				list_of_bytes_send.extend([device_id_dec_low, device_id_dec_high])
+			package_r = ':'.join(str(x) for x in list_of_bytes_send)
+			package_r += ':p'
+			print "%r" % package_r
+
+			request.write(package_r)
+
+
 class SmartboxPage(Resource):
 	def render_POST(self, request):
 		"""This function is used to get data from esp
@@ -73,7 +121,7 @@ class SmartboxPage(Resource):
 
 		return NOT_DONE_YET
 
-	# self.handling_samrtbox_data(request, data)
+		# self.handling_samrtbox_data(request, data)
 
 	def render_GET(self, request):
 		""" Simple function to test GET method from esp"""
@@ -104,7 +152,6 @@ class SmartboxPage(Resource):
 		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
 		receive_sum_control = int(receive_sum_control_hex, 16)
 		db_operation = DatabaseCommunication()
-
 		if checksum == receive_sum_control:
 			print "Checksum verified"
 
@@ -114,7 +161,6 @@ class SmartboxPage(Resource):
 			return 0
 
 		list_of_all_smartboxes_id = []
-		smart_pins = {}
 		query_string = ''
 
 		# #################################
@@ -126,33 +172,27 @@ class SmartboxPage(Resource):
 		# this will be done if smartbox work in normal mode (f_key == 1)
 		if f_key == f_key_output_state:
 			# count smartboxes which are included in package (-2 because last two bytes are bytes of sum controll)
-			count_smartboxes = (len(list_of_bytes) - 2) / 7
+			count_smartboxes = (len(list_of_bytes) - 2) / 5
 			print "Stan wyjścia obecny"
 
 			for smartbox in xrange(int(count_smartboxes)):
 				# convert bytes to hex, first of two bytes are id of smartbox, so first we need to convert
 				# its to hex and next this two bytes convert to one decimal value
-				smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7:smartbox * 7 + 2])
+				smart_id_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 5:smartbox * 5 + 2])
 				# convert id to decimal
 				smart_id = int(smart_id_hex.encode('hex'), 16)
 				# append all ids to list
 				list_of_all_smartboxes_id.append(smart_id)
 				# 5 and 6 bytes represent power consumption of electric socket which master smartbox is connected to
-				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 7 + 4:smartbox * 7 + 6])
+				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 5 + 4:smartbox * 5 + 6])
 				# convert power consumption to decimal
 				power_consumption = int(power_consumption_hex.encode('hex'), 16)
-				# 7 bytes represent voltage of electric socket which master smartbox is connected to
-				current_voltage = list_of_bytes[smartbox * 7 + 6]
-				# +3 because pin is fourth in package (we count from 0 so is +3)
-				smart_pins[smart_id] = int(chr(list_of_bytes[smartbox * 7 + 3]).encode('hex'), 16)
-
 				print "My smart id: %d" % smart_id
 				print "Power consumption: %d mA/s" % power_consumption
-				print "Voltage of electrical socket: %d V" % current_voltage
 
 				# insert to table all records which we get from package
-				query = "INSERT INTO device_measurement(deviceid, powerconsumption, socketvoltage) VALUES(%d, %d, %d);" % (
-					smart_id, power_consumption, current_voltage)
+				query = "INSERT INTO device_measurement(deviceid, powerconsumption) VALUES(%d, %d);" % (
+					smart_id, power_consumption)
 				query_string += query
 
 			db_operation.insert_operation(query_string)
@@ -181,7 +221,7 @@ class SmartboxPage(Resource):
 					f_key_send += 4
 					list_ids_change_reset.append(ids)
 				# fill package - id low, id high, ison, pin
-				list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, f_key_send, smart_pins[ids]])
+				list_of_bytes_send.extend([smart_id_dec_low, smart_id_dec_high, f_key_send])
 
 			# with one element tuple is like (451,) so with this comma it isn't correct query
 			if len(list_ids_change_reset) > 1:
@@ -334,6 +374,7 @@ class DatabaseCommunication:
 root = Resource()
 root.putChild("api", ApiPage())
 root.putChild("smartbox", SmartboxPage())
+root.putChild("configuration", SmartboxConfiguration())
 factory = Site(root)
 application = service.Application("smartbox")
 endpoint = endpoints.TCP4ServerEndpoint(reactor, 8880)
