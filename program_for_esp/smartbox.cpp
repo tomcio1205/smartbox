@@ -29,7 +29,9 @@ ESP8266WiFiMulti WiFiMulti;
 
 //byte byteArray[ARRAY_SIZE];
 
-//String data = "";
+String data = "12345323";
+char x = '2';
+
 int package[] = {1,195,1,144,4,226,230,1,196,1,255,4,226,230,1,197,1,255,4,226,1};
 int bb0 = 1;
 int bb1 = 195;
@@ -76,7 +78,7 @@ void setup() {
     WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
 //    WiFiMulti.addAP("NETIASPOT-52CC50", "c2svzibeu6i5");
 //    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
-
+    x.
 
 }
 

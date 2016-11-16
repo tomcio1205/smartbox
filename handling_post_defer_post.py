@@ -76,38 +76,50 @@ class SmartboxConfiguration(Resource):
 		list_of_bytes_send = []
 		list_of_bytes = data['data']
 		f_key = list_of_bytes[2]
+		checksum = CRCCCITT().calculate("".join(map(chr, list_of_bytes[:-2])))
+		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
+		receive_sum_control = int(receive_sum_control_hex, 16)
 
-		if f_key != 128:
-			print "Wrong f_key"
+		if checksum == receive_sum_control:
+			print "Checksum for configuration package verified"
 		else:
-			checksum = CRCCCITT().calculate("".join(map(chr, list_of_bytes[:-2])))
-			receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
-			receive_sum_control = int(receive_sum_control_hex, 16)
+			print "Wrong checksum, package is not interpreted \n"
+			return 0
 
-			if checksum == receive_sum_control:
-				print "Checksum for configuration package verified"
-			else:
-				print "Wrong checksum, package is not interpreted \n"
-				request.finish()
-				return 0
+		my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
+		my_smart_id = int(my_smart_id_hex, 16)
+		db_operation = DatabaseCommunication()
+		query_get_user = "select user_id from device where id = %s" % my_smart_id
+		user_id = db_operation.select_operation(query_get_user)[0][0]
 
-			my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
-			my_smart_id = int(my_smart_id_hex, 16)
-			db_operation = DatabaseCommunication()
-			query_get_user = "select user_id from device where id = %s" % my_smart_id
-			user_id = db_operation.select_operation(query_get_user)[0][0]
-			query_get_all_device = "select id from device where user_id = %s" %user_id
+		if f_key == 1:
+			query_get_devices_state = "select id, ison from device where user_id = %s" % user_id
+			devices_state = db_operation.select_operation(query_get_devices_state)
+			for state in devices_state:
+				device_id_hex = bytearray(pack('H', state[0]))
+				device_id_dec_low = int(chr(device_id_hex[1]).encode('hex'), 16)
+				device_id_dec_high = int(chr(device_id_hex[0]).encode('hex'), 16)
+				device_state = int(state[1])
+				list_of_bytes_send.extend([device_id_dec_low, device_id_dec_high, device_state])
+
+		if f_key == 128:
+			query_get_all_device = "select id from device where user_id = %s" % user_id
 			all_device_on_net = db_operation.select_operation(query_get_all_device)
 			for device in all_device_on_net:
 				device_id_hex = bytearray(pack('H', device[0]))
 				device_id_dec_low = int(chr(device_id_hex[1]).encode('hex'), 16)
 				device_id_dec_high = int(chr(device_id_hex[0]).encode('hex'), 16)
 				list_of_bytes_send.extend([device_id_dec_low, device_id_dec_high])
-			package_r = ':'.join(str(x) for x in list_of_bytes_send)
-			package_r += ':p'
-			print "%r" % package_r
+		# calculatesum control
+		sum_of_bytes = sum(list_of_bytes_send)
+		sum_control = CRCCCITT().calculate(str(sum_of_bytes))
+		sum_control_array = bytearray(pack('H', sum_control))
+		list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
+		package_r = ':'.join(str(x) for x in list_of_bytes_send)
+		package_r += ':p'
+		print "%r" % package_r
 
-			request.write(package_r)
+		request.write(package_r)
 
 
 class SmartboxPage(Resource):
