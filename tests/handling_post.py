@@ -133,54 +133,43 @@ class ApiPage(Resource):
 
 class SmartboxConfiguration(Resource):
 	def handling_configuration_data(self, request, data):
-		list_of_bytes_send = []
-		list_of_bytes = data['data']
-		f_key = list_of_bytes[2]
-		checksum = CRCCCITT().calculate("".join(map(chr, list_of_bytes[:-2])))
-		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
-		receive_sum_control = int(receive_sum_control_hex, 16)
 
-		if checksum == receive_sum_control:
-			print "Checksum for configuration package verified \n"
-		else:
-			print "Wrong checksum, package is not interpreted \n"
-			return 0
-
-		my_smart_id_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[:2])
-		my_smart_id = int(my_smart_id_hex, 16)
+		device_id = data['ID']
+		device_mode = data['Mode']
 		db_operation = DatabaseCommunication()
-		query_get_user = "select user_id from device where id = %s" % my_smart_id
+		query_get_user = "select user_id from device where id = '%s'" % device_id
 		user_id = db_operation.select_operation(query_get_user)[0][0]
+		data_list = []
 
-		if f_key == 1:
-			query_get_devices_state = "select id, ison from device where user_id = %s" % user_id
+		if device_mode == "Work":
+			query_get_devices_state = "select id, is_on from device where user_id = %s" % user_id
 			devices_state = db_operation.select_operation(query_get_devices_state)
 			for state in devices_state:
-				device_id_hex = bytearray(pack('H', state[0]))
-				device_id_dec_low = int(chr(device_id_hex[1]).encode('hex'), 16)
-				device_id_dec_high = int(chr(device_id_hex[0]).encode('hex'), 16)
-				device_state = int(state[1])
-				list_of_bytes_send.extend([device_id_dec_low, device_id_dec_high, device_state])
+				j_data = {
+					'ID': state[0],
+					'IsOn': state[1],
+				}
+				data_list.append(j_data)
 
-		if f_key == 128:
+		if device_mode == "Config":
 			query_get_all_device = "select id from device where user_id = %s" % user_id
 			all_device_on_net = db_operation.select_operation(query_get_all_device)
 			for device in all_device_on_net:
-				device_id_hex = bytearray(pack('H', device[0]))
-				device_id_dec_low = int(chr(device_id_hex[1]).encode('hex'), 16)
-				device_id_dec_high = int(chr(device_id_hex[0]).encode('hex'), 16)
-				list_of_bytes_send.extend([device_id_dec_low, device_id_dec_high])
-		# calculatesum control
-		sum_of_bytes = sum(list_of_bytes_send)
-		sum_control = CRCCCITT().calculate(str(sum_of_bytes))
-		sum_control_array = bytearray(pack('H', sum_control))
-		list_of_bytes_send.extend([sum_control_array[1], sum_control_array[0]])
-		package_r = ':'.join(str(x) for x in list_of_bytes_send)
-		package_r += ':p'
-		print "############# sent configuration package #############"
-		print "%r\n" % package_r
+				j_data = {
+					'ID': device[0],
+				}
+				data_list.append(j_data)
+		else:
+			j_data = {
+				'Error': "Can't properly read mode %s" % device_mode
+			}
+			data_list.append(j_data)
+		json_data = json.dumps(data_list)
 
-		request.write(package_r)
+		print "############# sent configuration package #############"
+		print "%r\n" % json_data
+
+		request.write(json_data)
 
 
 class SmartboxPage(Resource):
@@ -401,7 +390,7 @@ class DatabaseCommunication:
 		# global conn
 		# self.conn = adbapi.ConnectionPool("psycopg2", database="smartbox_database", user="postgres", password="postgres", host="127.0.0.1",
 		#                              port="5432")
-		self.conn = psycopg2.connect(database="smartbox_database", user="postgres", password="postgres",
+		self.conn = psycopg2.connect(database="smartbox_database_uuid", user="postgres", password="postgres",
 		                             host="127.0.0.1",
 		                             port="5432")
 
@@ -427,12 +416,11 @@ class DatabaseCommunication:
 
 
 api = HttpRest()
-# root = Resource()
+# root = Resource()content
 # root.putChild("api", ApiPage())
 # root.putChild("smartbox", SmartboxPage())
 # root.putChild("configuration", SmartboxConfiguration())
 factory = Site(api)
-application = service.Application("smartbox")
-endpoint = endpoints.TCP4ServerEndpoint(reactor, 8880)
-endpoint.listen(factory)
+# application = service.Application("smartbox")
+reactor.listenTCP(8880, factory)
 reactor.run()

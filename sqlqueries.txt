@@ -42,7 +42,10 @@ CREATE TABLE device (
     Is_On        boolean,
     Anti_Theft   boolean,
     Simulate_Presence boolean,
-    should_reset boolean
+    should_reset boolean,
+    Room    character varying,
+    icon_type    integer,
+    User_ID      integer REFERENCES users (ID)
 );
 
 CREATE TABLE user_device (
