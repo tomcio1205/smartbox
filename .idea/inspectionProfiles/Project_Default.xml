@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="16">
+          <list size="23">
             <item index="0" class="java.lang.String" itemvalue="Twisted" />
             <item index="1" class="java.lang.String" itemvalue="software-center-aptd-plugins" />
             <item index="2" class="java.lang.String" itemvalue="defer" />
@@ -21,6 +21,13 @@
             <item index="13" class="java.lang.String" itemvalue="debtags" />
             <item index="14" class="java.lang.String" itemvalue="pygobject" />
             <item index="15" class="java.lang.String" itemvalue="PAM" />
+            <item index="16" class="java.lang.String" itemvalue="pyasn1-modules" />
+            <item index="17" class="java.lang.String" itemvalue="ipaddress" />
+            <item index="18" class="java.lang.String" itemvalue="cryptography" />
+            <item index="19" class="java.lang.String" itemvalue="lxml" />
+            <item index="20" class="java.lang.String" itemvalue="enum34" />
+            <item index="21" class="java.lang.String" itemvalue="attrs" />
+            <item index="22" class="java.lang.String" itemvalue="idna" />
           </list>
         </value>
       </option>

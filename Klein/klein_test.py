@@ -103,19 +103,32 @@ class SmartboxConf(object):
 
 	def handling_configuration_data(self, data):
 		device_id = data['ID']
+		device_mode = data['Mode']
 		db_operation = DatabaseCommunication()
 		query_get_user = "select user_id from device where id = '%s'" % device_id
 		user_id = db_operation.select_operation(query_get_user)[0][0]
-		data_list = []
+		jj_data = {}
+		if device_mode == "Config":
+			query_get_all_device = "select id from device where user_id = %s" % user_id
+			all_device_on_net = db_operation.select_operation(query_get_all_device)
+			for enum, device in enumerate(all_device_on_net):
+				j_data = {
+					'ID': device[0],
+				}
+				jj_data[enum] = j_data
+				jj_data['CountDevice'] = enum
 
-		query_get_all_device = "select id from device where user_id = %s" % user_id
-		all_device_on_net = db_operation.select_operation(query_get_all_device)
-		for device in all_device_on_net:
-			j_data = {
-				'ID': device[0],
-			}
-			data_list.append(j_data)
-		json_data = json.dumps(data_list)
+		if device_mode == "Work":
+			query_get_devices_state = "select id, is_on from device where user_id = %s" % user_id
+			devices_state = db_operation.select_operation(query_get_devices_state)
+			for enum, state in enumerate(devices_state):
+				j_data = {
+					'ID': state[0],
+					'IsOn': state[1],
+				}
+				jj_data[enum] = j_data
+				jj_data['CountDevice'] = enum
+		json_data = json.dumps(jj_data)
 
 		print "############# sent configuration package #############"
 		print "%r\n" % json_data
@@ -151,4 +164,4 @@ class DatabaseCommunication:
 
 
 store = HttpRest()
-store.app.run('localhost', 8080)
+store.app.run('0.0.0.0', 8080)

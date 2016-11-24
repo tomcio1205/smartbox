@@ -75,65 +75,29 @@ void setup() {
         delay(1000);
     }
 
-    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
+//    WiFiMulti.addAP("WN-696969", "N0M0n3yN0wifi");
 //    WiFiMulti.addAP("NETIASPOT-52CC50", "c2svzibeu6i5");
-//    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
-    x.
+    WiFiMulti.addAP("NETIASPOT-B87D10", "8k3zs5aomf7z");
 
 }
 
 void loop() {
     // wait for WiFi connection
     if((WiFiMulti.run() == WL_CONNECTED)) {
-    	HTTPClient http;
+      HTTPClient http;
 
         DynamicJsonBuffer jsonBuffer;
         JsonObject& root = jsonBuffer.createObject();
         JsonArray& dataa = root.createNestedArray("data");
-        root["sensor"] = "gps";
-        root["time"] = 1351824120;
-//        dataa.add(48.756080, 6);  // 6 is the number of decimals to print
-//        dataa.add(2.302038, 6);   // if not specified, 2 digits are printed
-        dataa.add(bb0);
-        dataa.add(bb1);
-        dataa.add(bb2);
-        dataa.add(bb3);
-        dataa.add(bb4);
-        dataa.add(bb5);
-        dataa.add(bb6);
-        dataa.add(bb7);
-        dataa.add(bb8);
-        dataa.add(bb9);
-        dataa.add(bb10);
-        dataa.add(bb11);
-        dataa.add(bb12);
-        dataa.add(bb13);
-        dataa.add(bb14);
-        dataa.add(bb15);
-        dataa.add(bb16);
-        dataa.add(bb17);
-        dataa.add(bb18);
-        dataa.add(bb19);
-        dataa.add(bb20);
-        crc.clearCrc();
+        root["ID"] = "7a2dfe63-165d-4029-9d20-069c90a148ba";
+        root["Mode"] = "Work";
 
-        for (int i=0; i<array_size; i++)
-        {
-        	crc.updateCrc(package[i]);
-        }
-        unsigned short value = crc.getCrc();
-
-        //////////////////calculate crc16//////////////////
-
-
-        dataa.add(highByte(value));
-        dataa.add(lowByte(value));
         root.printTo(Serial);
 
         USE_SERIAL.print("[HTTP] begin...\n");
         // configure traged server and url
         //http.begin("https://192.168.1.12/test.html", "7a 9c f4 db 40 d3 62 5a 6e 21 bc 5c cc 66 c8 3e a1 45 59 38"); //HTTPS
-        http.begin("http://192.168.2.107:8880/smartbox"); //HTTP
+        http.begin("http://192.168.1.4:8080/smartbox/configuration"); //HTTP
 
         USE_SERIAL.print("[HTTP] GET...\n");
         // start connection and send HTTP header
@@ -151,74 +115,27 @@ void loop() {
             // file found at server
             if(httpCode == HTTP_CODE_OK) {
                 String payload = http.getString();
+                char json[payload.length()];
+
                 //get only package from response
                 //'1:195:1:144:1:196:0:255:1:197:0:255:110:92:p'
-                String package = "";
+//                String package = "";
                   for (int i=0; i<payload.length(); i++)
                   {
-                    if (payload[i]== 'p')
-                    {
-                      break;
-                    }
-                    package += payload[i];
+                    json[i]= payload[i];
                   }
-                  char input[1024];
-                  // if size of value array is big exception was thrown, we must check this
-                  // try with reserve memory with malloc or other??
-                  int value[300];
-                  char number;
-                  String byte_value= "";
-                  int i = 0;
-                  int k = 0;
-                  strcpy(input, package.c_str());
-                  while (input[i] != NULL)
-                  {
-                    number = input[i];
+                  JsonObject& root2 = jsonBuffer.parseObject(json);
+//                  root2.printTo(Serial);
+                  int count_devices = root2["CountDevice"];
 
-                    if (number == ':')
-                    {
-                      value[k] = byte_value.toInt();
-                      byte_value = "";
-                      k ++;
-                    }
-                    else
-                    {
-                      byte_value += number;
-                    }
-                    i++;
-                  }
-//                for (int i=0; i<k; i++)
-//                {
-//                  USE_SERIAL.println(value[i]);
-//                }
-                  if (value[2] == f_key_make_reset_low || value[2] == f_key_make_reset_high)
+                  for (int i=0; i<=count_devices; i++)
                   {
-                    digitalWrite(12, LOW);
-                    delay(100);
-                    digitalWrite(12, HIGH);
-                    delay(100);
-                    digitalWrite(12, LOW);
-                    delay(100);
-                    digitalWrite(12, HIGH);
-                    delay(100);
-                    digitalWrite(12, LOW);
-                    delay(100);
-                    digitalWrite(12, HIGH);
-                    delay(100);
-                    digitalWrite(12, LOW);
+                    char c[3];
+                    sprintf(c, "%d", i);
+                    String id = root2[c]["ID"];
 
+                     USE_SERIAL.println(id);
                   }
-                  if (value[2] == f_key_output_state_high || value[2] == f_key_make_reset_high)
-                  {
-                    USE_SERIAL.println("Set high");
-                    digitalWrite(12, HIGH);
-                  }
-                  if (value[2] == f_key_output_state_low || value[2] == f_key_make_reset_low)
-                  {
-                    USE_SERIAL.println("Set low");
-                    digitalWrite(12, LOW);
-                  }
-
             }
         } else {
             USE_SERIAL.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
