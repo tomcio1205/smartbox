@@ -4,9 +4,7 @@ from twisted.internet import reactor, endpoints
 from twisted.web.static import File
 
 root = Resource()
-root.putChild("foo", File("/tmp"))
-root.putChild("bar", File("/home"))
-root.putChild("baz", File("/opt"))
+root.putChild("sdk", File("/tmp"))
 
 factory = Site(root)
 endpoint = endpoints.TCP4ServerEndpoint(reactor, 8880)

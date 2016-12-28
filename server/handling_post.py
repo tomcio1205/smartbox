@@ -56,6 +56,28 @@ class HttpRest(APIResource):
 		db_operation.insert_operation(query)
 		return "Table updated"
 
+	@GET('^/api/deviceconsumption/(?P<word>[^/]*)/(?P<id>[^/]+)')
+	def get_current_amp(self, request, word, id):
+		db_operation = DatabaseCommunication()
+		data = {}
+		data_list = []
+		if word == 'current':
+			query = "SELECT measurementtime,powerconsumption from device_measurement order by measurementtime desc limit 1"
+			measurement = db_operation.select_operation(query)[0]
+			data['consumption'] = measurement[1]
+			data['data'] = measurement[0].isoformat()
+			json_data = json.dumps([data])
+			return json_data
+		if word == 'lastvals':
+			query = "SELECT measurementtime,powerconsumption from device_measurement order by measurementtime desc limit 10"
+			measurements = db_operation.select_operation(query)
+			for measure in measurements:
+				data = {'consumption': measure[1], 'data': measure[0].isoformat()}
+				data_list.append(data)
+			json_data = json.dumps(data_list)
+			return json_data
+
+
 	@GET('^/api/(?P<word>[^/]*)/(?P<id>[^/]+)')
 	def api_post(self, request, word, id):
 		db_operation = DatabaseCommunication()
@@ -207,6 +229,7 @@ class SmartboxPage(Resource):
 		receive_sum_control_hex = ''.join('{:02x}'.format(x) for x in list_of_bytes[-2:])
 		receive_sum_control = int(receive_sum_control_hex, 16)
 		db_operation = DatabaseCommunication()
+		print checksum
 		if checksum == receive_sum_control:
 			print "Checksum for normal package verified \n"
 
@@ -239,7 +262,7 @@ class SmartboxPage(Resource):
 				# append all ids to list
 				list_of_all_smartboxes_id.append(smart_id)
 				# 5 and 6 bytes represent power consumption of electric socket which master smartbox is connected to
-				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 5 + 4:smartbox * 5 + 6])
+				power_consumption_hex = ''.join(chr(bt) for bt in list_of_bytes[smartbox * 5 + 3:smartbox * 5 + 5])
 				# convert power consumption to decimal
 				power_consumption = int(power_consumption_hex.encode('hex'), 16)
 				print "My smart id: %d" % smart_id
@@ -433,6 +456,6 @@ api = HttpRest()
 # root.putChild("configuration", SmartboxConfiguration())
 factory = Site(api)
 application = service.Application("smartbox")
-endpoint = endpoints.TCP4ServerEndpoint(reactor, 8880)
+endpoint = endpoints.TCP4ServerEndpoint(reactor, 8080)
 endpoint.listen(factory)
 reactor.run()

@@ -12,9 +12,8 @@
 #include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
 ////////////////////
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
+#include <ESP8266HTTPClient.h>
+#include <ESP8266httpUpdate.h>
 /////////////////////////
 #define USE_SERIAL Serial
 #define f_key_configuration_package 128
@@ -28,9 +27,10 @@
 
 #define LOCAL_SERVER "http://192.168.1.103:8080/smartbox/work"
 #define REMOTE_SERVER "http://51.255.162.139:8080/smartbox/work"
-#define SKETCH_BIN "http://51.255.162.139/WebUpdater.ino.bin"
+#define SKETCH_BIN "http://192.168.1.103/httpUpdate.ino.bin"
 #define VERSION_SKETCH  "v1_11"
-
+#define MY_ID "7a2dfe63-165d-4029-9d20-069c90a148ba"
+#define BOOT_AFTER_UPDATE false
 //#define ARRAY_SIZE 32
 Crc16 crc;
 
@@ -63,7 +63,7 @@ int bb17 = 255;
 int bb18 = 4;
 int bb19 = 226;
 int bb20 = 1;
-boolean should_update = false;
+boolean should_update = true;
 int array_size = sizeof(package)/sizeof(package[0]);
 
 void setup() {
@@ -96,10 +96,15 @@ void loop() {
       if((WiFiMulti.run() == WL_CONNECTED)) {
         HTTPClient http;
           DynamicJsonBuffer jsonBuffer;
+          JsonObject& my_json = jsonBuffer.createObject();
+          JsonObject& my_json2 = jsonBuffer.createObject();
           JsonObject& root = jsonBuffer.createObject();
-          root["ID"] = "7a2dfe63-165d-4029-9d20-069c90a148ba";
-          // root["Mode"] = "Work";
-          root.printTo(Serial);
+          JsonArray& data = root.createNestedArray("data");
+          my_json["ID"] = "7a2dfe63-165d-4029-9d20-069c90a148ba";
+          my_json["PowerConsumption"] = 234.23;
+          my_json2["ID"] = "48f272be-d4a2-4e51-b20c-8c11b4bc9b4e";
+          my_json2["PowerConsumption"] = 434.63;
+          my_json.printTo(Serial);
 
           USE_SERIAL.print("[HTTP] begin...\n");
           // configure traged server and url
@@ -110,10 +115,16 @@ void loop() {
           // start connection and send HTTP header
           http.addHeader("Content-Type", "application/x-www-form-urlencoded");
           //set sdk version in header
-          http.addHeader("SDK Version", "v1_11");
+          http.addHeader("SDK Version", VERSION_SKETCH);
           String output;
-          root.printTo(output);
-          int httpCode = http.POST(output);
+          my_json.printTo(output);
+          data.add(output);
+          String output2;
+          my_json2.printTo(output2);
+          data.add(output2);
+          String root_output;
+          root.printTo(root_output);
+          int httpCode = http.POST(root_output);
   //        int httpCode = http.GET();
 
           // httpCode will be negative on error
@@ -142,7 +153,7 @@ void loop() {
                       String id = root2[c]["ID"];
 
                       USE_SERIAL.println(id);
-                      if (id ==  root["ID"])
+                      if (id ==  MY_ID)
                       {
                         String IsON = root2[c]["IsOn"];
                         USE_SERIAL.print("Should I on? ");
@@ -154,6 +165,26 @@ void loop() {
                         if (should_update)
                         {
                           USE_SERIAL.println("Should Update");
+                          // ESPhttpUpdate.rebootOnUpdate(BOOT_AFTER_UPDATE);
+                          t_httpUpdate_return ret = ESPhttpUpdate.update(SKETCH_BIN);
+                          switch(ret) {
+                             case HTTP_UPDATE_FAILED:
+                                 USE_SERIAL.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+                                 break;
+
+                             case HTTP_UPDATE_NO_UPDATES:
+                                 USE_SERIAL.println("HTTP_UPDATE_NO_UPDATES");
+                                 break;
+
+                             case HTTP_UPDATE_OK:
+                                 USE_SERIAL.println("HTTP_UPDATE_OK");
+                                 break;
+
+                             default:
+                                 USE_SERIAL.print("Undefined HTTP_UPDATE Code: ");
+                                 USE_SERIAL.println(ret);
+
+                          }
                         }
                         else
                         {

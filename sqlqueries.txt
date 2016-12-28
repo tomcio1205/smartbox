@@ -45,7 +45,9 @@ CREATE TABLE device (
     should_reset boolean,
     Room    character varying,
     icon_type    integer,
-    User_ID      integer REFERENCES users (ID)
+    User_ID      integer REFERENCES users (ID),
+    sdk_version  integer REFERENCES sdk_history (ID),
+    should_update boolean default false
 );
 
 CREATE TABLE user_device (
