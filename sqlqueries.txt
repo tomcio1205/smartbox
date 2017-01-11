@@ -47,7 +47,8 @@ CREATE TABLE device (
     icon_type    integer,
     User_ID      integer REFERENCES users (ID),
     sdk_version  integer REFERENCES sdk_history (ID),
-    should_update boolean default false
+    should_update boolean default false,
+    is_sdk_actual boolean default false
 );
 
 CREATE TABLE user_device (

@@ -1,3 +1,4 @@
+klein
 PyCRC
 adium-theme-ubuntu==0.3.4
 attrs==15.2.0

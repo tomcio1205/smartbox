@@ -25,10 +25,10 @@
 #define f_key_output_state_high 1
 #define f_key_output_state_low 0
 
-#define LOCAL_SERVER "http://192.168.1.103:8080/smartbox/work"
-#define REMOTE_SERVER "http://51.255.162.139:8080/smartbox/work"
-#define SKETCH_BIN "http://192.168.1.103/httpUpdate.ino.bin"
-#define VERSION_SKETCH  "v1_11"
+#define LOCAL_SERVER "http://192.168.1.100:8080/smartbox/work"
+#define REMOTE_SERVER "http://smartboxvm9288.cloudapp.net:8080/smartbox/work"
+#define SKETCH_BIN "http://192.168.1.100/BasicHttpClient_json.ino.bin"
+#define VERSION_SKETCH  "v1_12"
 #define MY_ID "7a2dfe63-165d-4029-9d20-069c90a148ba"
 #define BOOT_AFTER_UPDATE false
 //#define ARRAY_SIZE 32
@@ -107,6 +107,7 @@ void loop() {
           my_json.printTo(Serial);
 
           USE_SERIAL.print("[HTTP] begin...\n");
+          
           // configure traged server and url
           //http.begin("https://192.168.1.12/test.html", "7a 9c f4 db 40 d3 62 5a 6e 21 bc 5c cc 66 c8 3e a1 45 59 38"); //HTTPS
           http.begin(LOCAL_SERVER); //HTTP
@@ -162,6 +163,8 @@ void loop() {
                         String sdk_version = root2[c]["SdkVersion"];
                         USE_SERIAL.print("Activate OTA??? ");
                         USE_SERIAL.println(should_update);
+                        USE_SERIAL.print("Current version sketch: ");
+                        USE_SERIAL.println(VERSION_SKETCH);
                         if (should_update)
                         {
                           USE_SERIAL.println("Should Update");
@@ -190,7 +193,7 @@ void loop() {
                         {
                           USE_SERIAL.println("Should not Update");
                         }
-                        USE_SERIAL.println(sdk_version);
+                        //USE_SERIAL.println(sdk_version);
                       }
                     }
                   }
@@ -201,4 +204,3 @@ void loop() {
       }
       delay(1000);
 }
-
